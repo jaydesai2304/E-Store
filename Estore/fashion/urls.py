@@ -1,5 +1,6 @@
 from django.urls import path 
 from fashion import views 
+from .views import RegisterView
 
 urlpatterns = [   
     path('', views.index,name="index"),
@@ -9,6 +10,7 @@ urlpatterns = [
     path('my_account/', views.my_account, name="my_account"),
     path('product_detail/', views.product_detail, name="product_detail"),
     path('product_list/', views.product_list, name="product_list"),
-    path('wishlist/', views.wishlist, name="wishlist")
+    path('wishlist/', views.wishlist, name="wishlist"),
+    path('login/', RegisterView.as_view(), name="login"),
 
 ]
