@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,7 +9,7 @@
         <meta content="eCommerce HTML Template Free Download" name="description">
 
         <!-- Favicon -->
-        <link href="img/favicon.ico" rel="icon">
+        <link href="{% static 'img/favicon.ico' %}" rel="icon">
 
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap" rel="stylesheet">
@@ -16,11 +17,11 @@
         <!-- CSS Libraries -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-        <link href="lib/slick/slick.css" rel="stylesheet">
-        <link href="lib/slick/slick-theme.css" rel="stylesheet">
+        <link href="{% static 'slick.css' %}" rel="stylesheet">
+        <link href="{% static 'slick-theme.css' %}" rel="stylesheet">
 
         <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
+        <link href="{% static 'style.css' %}" rel="stylesheet">
     </head>
 
     <body> 
@@ -39,16 +40,9 @@
                             <a href="product-list.html" class="nav-item nav-link">Products</a>
                             <a href="product-detail.html" class="nav-item nav-link">Product Detail</a>
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
-                            <a href="checkout.html" class="nav-item nav-link">Checkout</a>
+                            <a href="{% url 'contact' %}" class="nav-item nav-link">Contact Us</a>
                             <a href="my-account.html" class="nav-item nav-link">My Account</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">More Pages</a>
-                                <div class="dropdown-menu">
-                                    <a href="wishlist.html" class="dropdown-item">Wishlist</a>
-                                    <a href="login.html" class="dropdown-item active">Login & Register</a>
-                                    <a href="contact.html" class="dropdown-item">Contact Us</a>
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="navbar-nav ml-auto">
                             <div class="nav-item dropdown">
@@ -72,7 +66,7 @@
                     <div class="col-md-3">
                         <div class="logo">
                             <a href="index.html">
-                                <img src="img/logo.png" alt="Logo">
+                                <img src="{%static 'img/logo.png' %}" alt="Logo">
                             </a>
                         </div>
                     </div>
@@ -117,38 +111,41 @@
                 <div class="row">
                     <div class="col-lg-6">    
                         <div class="register-form">
+                            <form action="" method="post">
+                               {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>First Name</label>
-                                    <input class="form-control" type="text" placeholder="First Name">
+                                    <label>Full Name</label>
+                                    <input class="form-control" type="text" placeholder="Full Name" name="fname">
                                 </div>
                                 <div class="col-md-6">
-                                    <label>Last Name"</label>
-                                    <input class="form-control" type="text" placeholder="Last Name">
+                                    <label>Username</label>
+                                    <input class="form-control" type="text" placeholder="Username" name="username">
                                 </div>
                                 <div class="col-md-6">
                                     <label>E-mail</label>
-                                    <input class="form-control" type="text" placeholder="E-mail">
+                                    <input class="form-control" type="text" placeholder="E-mail" name="email">
                                 </div>
                                 <div class="col-md-6">
                                     <label>Mobile No</label>
-                                    <input class="form-control" type="text" placeholder="Mobile No">
+                                    <input class="form-control" type="text" placeholder="Mobile No" name="phone_no">
                                 </div>
                                 <div class="col-md-6">
                                     <label>Password</label>
-                                    <input class="form-control" type="text" placeholder="Password">
+                                    <input class="form-control" type="text" placeholder="Password" name="password">
                                 </div>
                                 <div class="col-md-6">
                                     <label>Retype Password</label>
-                                    <input class="form-control" type="text" placeholder="Password">
+                                    <input class="form-control" type="text" placeholder="Retype Password" name="c_password">
                                 </div>
                                 <div class="col-md-12">
                                     <button class="btn">Submit</button>
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    {% comment %} <div class="col-lg-6">
                         <div class="login-form">
                             <div class="row">
                                 <div class="col-md-6">
@@ -169,7 +166,7 @@
                                     <button class="btn">Submit</button>
                                 </div>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -233,15 +230,15 @@
                     <div class="col-md-6">
                         <div class="payment-method">
                             <h2>We Accept:</h2>
-                            <img src="img/payment-method.png" alt="Payment Method" />
+                            <img src="{% static 'img/payment-method.png' %}" alt="Payment Method" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="payment-security">
                             <h2>Secured By:</h2>
-                            <img src="img/godaddy.svg" alt="Payment Security" />
-                            <img src="img/norton.svg" alt="Payment Security" />
-                            <img src="img/ssl.svg" alt="Payment Security" />
+                            <img src="{% static 'img/godaddy.svg' %}" alt="Payment Security" />
+                            <img src="{% static 'img/norton.svg' %}" alt="Payment Security" />
+                            <img src="{% static 'img/ssl.svg' %}" alt="Payment Security" />
                         </div>
                     </div>
                 </div>
@@ -267,10 +264,10 @@
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/slick/slick.min.js"></script>
+        <script src="{% static 'js/easing.min.js' %}"></script>
+        <script src="{% static 'js/slick.min.js' %}"></script>
         
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+        <script src="{% static 'js/main.js' %}"></script>
     </body>
 </html>
