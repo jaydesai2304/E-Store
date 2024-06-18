@@ -36,20 +36,19 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
-                            <a href="product-list.html" class="nav-item nav-link">Products</a>
-                            <a href="product-detail.html" class="nav-item nav-link">Product Detail</a>
-                            <a href="cart.html" class="nav-item nav-link">Cart</a>
+                            <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+                            <a href="{% url 'product_list' %}" class="nav-item nav-link">Products</a>
+                            <a href="{% url 'product_detail' %}" class="nav-item nav-link">Product Detail</a>
+                            <a href="{% url 'cart' %}" class="nav-item nav-link">Cart</a>
                             <a href="{% url 'contact' %}" class="nav-item nav-link">Contact Us</a>
-                            <a href="my-account.html" class="nav-item nav-link">My Account</a>
-                            
+                            <a href="{% url 'my_account' %}" class="nav-item nav-link">My Account</a>
                         </div>
                         <div class="navbar-nav ml-auto">
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
                                 <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">Login</a>
-                                    <a href="#" class="dropdown-item">Register</a>
+                                    <a href="{% url 'login' %}" class="dropdown-item">Login</a>
+                                    <a href="{% url 'register' %}" class="dropdown-item">Register</a>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +64,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="logo">
-                            <a href="index.html">
+                            <a href="{% url 'index' %}">
                                 <img src="{%static 'img/logo.png' %}" alt="Logo">
                             </a>
                         </div>
@@ -98,7 +97,6 @@
             <div class="container-fluid">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Products</a></li>
                     <li class="breadcrumb-item active">Login & Register</li>
                 </ul>
             </div>
@@ -109,52 +107,18 @@
         <div class="login">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-6">    
-                        <div class="register-form">
-                            <form action="" method="post">
-                               {% csrf_token %}
+                   <div class="col-lg-6">
+                        <div class="login-form">
+                            <form action="" method = "post">
+                                {% csrf_token %}
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label>Full Name</label>
-                                    <input class="form-control" type="text" placeholder="Full Name" name="fname">
-                                </div>
                                 <div class="col-md-6">
                                     <label>Username</label>
                                     <input class="form-control" type="text" placeholder="Username" name="username">
                                 </div>
                                 <div class="col-md-6">
-                                    <label>E-mail</label>
-                                    <input class="form-control" type="text" placeholder="E-mail" name="email">
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Mobile No</label>
-                                    <input class="form-control" type="text" placeholder="Mobile No" name="phone_no">
-                                </div>
-                                <div class="col-md-6">
                                     <label>Password</label>
                                     <input class="form-control" type="text" placeholder="Password" name="password">
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Retype Password</label>
-                                    <input class="form-control" type="text" placeholder="Retype Password" name="c_password">
-                                </div>
-                                <div class="col-md-12">
-                                    <button class="btn">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-                        </div>
-                    </div>
-                    {% comment %} <div class="col-lg-6">
-                        <div class="login-form">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>E-mail / Username</label>
-                                    <input class="form-control" type="text" placeholder="E-mail / Username">
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Password</label>
-                                    <input class="form-control" type="text" placeholder="Password">
                                 </div>
                                 <div class="col-md-12">
                                     <div class="custom-control custom-checkbox">
@@ -166,7 +130,8 @@
                                     <button class="btn">Submit</button>
                                 </div>
                             </div>
-                        </div> {% endcomment %}
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -181,9 +146,9 @@
                         <div class="footer-widget">
                             <h2>Get in Touch</h2>
                             <div class="contact-info">
-                                <p><i class="fa fa-map-marker"></i>123 E Store, Los Angeles, USA</p>
-                                <p><i class="fa fa-envelope"></i>email@example.com</p>
-                                <p><i class="fa fa-phone"></i>+123-456-7890</p>
+                                <p><i class="fa fa-map-marker"></i>123 E Store, Ahmedabad</p>
+                                <p><i class="fa fa-envelope"></i>estore@email.com</p>
+                                <p><i class="fa fa-phone"></i>+91 12345 67890</p>
                             </div>
                         </div>
                     </div>
