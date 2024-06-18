@@ -37,7 +37,7 @@ class RegisterView(generics.CreateAPIView):
     template_name = "register.html"
 
     def get(self, request):
-        if "username" in request.session:
+        if "username" not in request.session:
             return redirect("index")
         serializer = RegisterSerializers()
         return render(request, self.template_name)
