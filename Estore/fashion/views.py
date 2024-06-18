@@ -30,6 +30,9 @@ def product_list(request):
 def wishlist(request):
     return render(request, 'wishlist.html')
 
+def Reset_password(request):
+    return render(request, 'reset_password.html')
+
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializers
@@ -54,7 +57,7 @@ class LoginView(generics.GenericAPIView):
     template_name = "login.html"
 
     def get(self, request, *args, **kwargs):
-        if "username" in request.session:
+        if "username" not in request.session:
             return redirect("index")
         return render(request, self.template_name)
 
