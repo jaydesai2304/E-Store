@@ -54,16 +54,17 @@ class LoginView(generics.GenericAPIView):
     template_name = "login.html"
 
     def get(self, request, *args, **kwargs):
-        if "username" not in request.session:
+        if "username" in request.session:
             return redirect("index")
-        serializer = self.serializer_class()
-        return render(request, self.template_name, {'serializer': serializer})
+        return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
+        serializer = LoginSerializer(data=request.data)
+        print(serializer)
         if serializer.is_valid():
             user = serializer.data.get('username')
             request.session["username"] = user
             return redirect("index")
+        messages.error(request, serializer.errors["non_field_errors"][0])
         return render(request, self.template_name, {'serializer': serializer})
         
