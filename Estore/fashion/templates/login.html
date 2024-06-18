@@ -108,10 +108,17 @@
             <div class="container-fluid">
                 <div class="row">
                    <div class="col-lg-6">
+                    <div class="messages">
+                        <ul>
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}" style=" margin-left:50px; color:red;" {% endif %}>{{message}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                         <div class="login-form">
-                            <form action="" method = "post">
+                            <form method = "post">
                                 {% csrf_token %}
-                            <div class="row">
+                                
                                 <div class="col-md-6">
                                     <label>Username</label>
                                     <input class="form-control" type="text" placeholder="Username" name="username">
