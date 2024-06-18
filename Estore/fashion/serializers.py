@@ -36,3 +36,19 @@ class RegisterSerializers(serializers.ModelSerializer):
         user.save()
 
         return user
+    
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        username = data.get('username')
+        password = data.get('password')
+        if username and password:
+            user = Register(username=username, password=password)
+            if user is None:
+                raise serializers.ValidationError("Invalid credentials")
+        else:
+            raise serializers.ValidationError("Both fields are required")
+        data['user'] = user
+        return data
