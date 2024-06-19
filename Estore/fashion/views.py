@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from rest_framework import generics
-from .serializers import RegisterSerializers, LoginSerializer
+from .serializers import RegisterSerializers, LoginSerializer, ForgotSerializer, OtpSerializer, ResetpasswordSerializer
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
 from rest_framework.response import Response
 from rest_framework import status
+from django.core.mail import EmailMessage
+import random
 
 def index(request):
     return render(request, 'index.html')
@@ -32,12 +34,6 @@ def wishlist(request):
 
 def Reset_password(request):
     return render(request, 'reset_password.html')
-
-def Forgot(request):
-    return render(request, 'forgot.html')
-
-def OTP(request):
-    return render(request, 'otp.html')
 
 
 class RegisterView(generics.CreateAPIView):
@@ -75,4 +71,71 @@ class LoginView(generics.GenericAPIView):
             return redirect("index")
         messages.error(request, serializer.errors["non_field_errors"][0])
         return render(request, self.template_name, {'serializer': serializer})
-        
+    
+class LogoutView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        if "username" in request.session:
+            del request.session["username"]
+        return redirect("login") 
+
+class ForgotView(generics.CreateAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "forgot.html"
+    serializer_class = ForgotSerializer
+
+    def get(self, request):
+        if "username" not in request.session:
+            return redirect("index")
+        return render(request, self.template_name)
+
+    def post(self, request):
+        serializer = ForgotSerializer(data=request.data)
+        if not serializer.is_valid():
+            return redirect("forgot")
+        email = serializer.data["email"]
+        otp = str(random.randint(1000, 9999))
+        request.session["email"] = email
+        request.session["otp"] = otp
+        email_subject = "Your OTP Code"
+        email_body = f"Your OTP code is: {otp}"
+        email = EmailMessage(email_subject, email_body, to=[email])
+        email.send()
+        return redirect("otp")
+    
+class OtpView(generics.CreateAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "otp.html"
+    serializer_class = OtpSerializer
+
+    def get(self, request):
+        if "username" not in request.session:
+            return redirect("index")
+        return render(request, self.template_name)
+
+    def post(self, request):
+        otp = request.session.get("otp")
+        serializer = OtpSerializer(data=request.data, context={"otp": otp})
+        if not serializer.is_valid():
+            messages.error(request, serializer.errors["non_field_errors"][0])
+            return redirect("otp")
+        return redirect("reset_password")
+    
+class ResetpasswordView(generics.CreateAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "reset_password.html"
+    serializer_class = ResetpasswordSerializer
+
+    def get(self, request):
+        if "username" not in request.session:
+            return redirect("index")
+        return render(request, self.template_name)
+
+    def post(self, request):
+        email = request.session.get("email")
+        serializer = ResetpasswordSerializer(
+            data=request.data, context={"email_id": email}
+        )
+        if not serializer.is_valid():
+            messages.error(request, serializer.errors["non_field_errors"][0])
+            return redirect("reset_password")
+        return redirect("login")

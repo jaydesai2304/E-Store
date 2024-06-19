@@ -7,3 +7,4 @@ class Register(models.Model):
     phone_no = models.IntegerField(default='')
     password = models.CharField(max_length=100)
     c_password = models.CharField(max_length=100)
+    otp = models.CharField(max_length=4, null=True, blank=True)
