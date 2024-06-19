@@ -43,15 +43,6 @@
                             <a href="{% url 'contact' %}" class="nav-item nav-link">Contact Us</a>
                             <a href="{% url 'my_account' %}" class="nav-item nav-link">My Account</a>
                         </div>
-                        <div class="navbar-nav ml-auto">
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link" data-toggle="dropdown">User Account</a>
-                                <div class="dropdown-menu">
-                                    <a href="{% url 'login' %}" class="dropdown-item">Login</a>
-                                    <a href="{% url 'register' %}" class="dropdown-item">Register</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </nav>
             </div>
@@ -86,35 +77,17 @@
         <!-- Breadcrumb End -->
         
         <!-- Login Start -->
-        <div class="login">
-            <div class="container-fluid">
-                <div class="row">
-                   <div class="col-lg-6">
-                        <div class="login-form">
-                            <div class="messages">
-                                <ul>
-                                    {% for message in messages %}
-                                    <li{% if message.tags %} class="{{ message.tags }}" style=" margin-left:50px; color:red;" {% endif %}>{{message}}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <form method = "post">
-                                {% csrf_token %}
-                                
-                                <div class="col-md-6">
-                                    <label>Enter OTP</label>
-                                    <input class="form-control" type="text" placeholder="OTP" name="otp">
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <button class="btn">SUBMIT</button>
-                                </div><br>
-                            </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+        <div style="margin-left: 38%; margin-bottom: 2%;"> 
+            <form class="form">
+            <p class="form-title">OTP</p>
+                <div class="input-container">
+                <input placeholder="Enter otp">
+                
             </div>
+                <button class="submit" type="submit">
+                Submit
+            </button>
+        </form>              
         </div>
         <!-- Login End -->
         
