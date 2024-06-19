@@ -12,6 +12,7 @@ urlpatterns = [
     path('product_list/', views.product_list, name="product_list"),
     path('wishlist/', views.wishlist, name="wishlist"),
     path('reset_password/', views.Reset_password, name="reset_password"),
+    path('forgot/', views.Forgot, name="Forgot"),
 
 
     path('register/', RegisterView.as_view(), name="register"),
