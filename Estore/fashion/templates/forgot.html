@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>E - Store | Login</title>
+        <title>E - Store | Forgot Password</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="eCommerce HTML Template Free Download" name="keywords">
         <meta content="eCommerce HTML Template Free Download" name="description">
@@ -97,7 +97,7 @@
             <div class="container-fluid">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-                    <li class="breadcrumb-item active">Login</li>
+                    <li class="breadcrumb-item active">Forgot Password</li>
                 </ul>
             </div>
         </div>
@@ -120,20 +120,13 @@
                                 {% csrf_token %}
                                 
                                 <div class="col-md-6">
-                                    <label>Username</label>
-                                    <input class="form-control" type="text" placeholder="Username" name="username">
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Password</label>
-                                    <input class="form-control" type="text" placeholder="Password" name="password">
+                                    <label>Enter your registered Email</label>
+                                    <input class="form-control" type="email" placeholder="Email" name="email">
                                 </div>
                                 
                                 <div class="col-md-6">
-                                    <button class="btn">Submit</button>
+                                    <button class="btn">Send OTP</button>
                                 </div><br>
-                                <div class="col-md-5">
-                                    <a href="{% url 'Forgot' %}">Forgot Password?</a>
-                                </div>
                             </div>
                             </form>
                         </div>

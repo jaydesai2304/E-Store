@@ -33,6 +33,9 @@ def wishlist(request):
 def Reset_password(request):
     return render(request, 'reset_password.html')
 
+def Forgot(request):
+    return render(request, 'forgot.html')
+
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializers
