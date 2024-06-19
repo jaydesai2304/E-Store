@@ -36,6 +36,9 @@ def Reset_password(request):
 def Forgot(request):
     return render(request, 'forgot.html')
 
+def OTP(request):
+    return render(request, 'otp.html')
+
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializers
