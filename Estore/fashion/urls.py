@@ -1,6 +1,6 @@
 from django.urls import path 
 from fashion import views 
-from .views import RegisterView, LoginView
+from .views import RegisterView, LoginView, OtpView, ForgotView, ResetpasswordView, LogoutView
 
 urlpatterns = [   
     path('', views.index,name="index"),
@@ -11,12 +11,13 @@ urlpatterns = [
     path('product_detail/', views.product_detail, name="product_detail"),
     path('product_list/', views.product_list, name="product_list"),
     path('wishlist/', views.wishlist, name="wishlist"),
-    path('reset_password/', views.Reset_password, name="reset_password"),
-    path('forgot/', views.Forgot, name="Forgot"),
-    path('otp/', views.OTP, name="otp"),
 
 
+    path('reset_password/', ResetpasswordView.as_view(), name="reset_password"),
+    path('forgot/', ForgotView.as_view(), name="forgot"),
+    path('otp/', OtpView.as_view(), name="otp"),
     path('register/', RegisterView.as_view(), name="register"),
     path('login/', LoginView.as_view(), name="login"),
+    path('logout/', LogoutView.as_view(), name="logout")
 
 ]

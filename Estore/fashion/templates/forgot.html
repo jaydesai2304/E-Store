@@ -87,10 +87,18 @@
         
         <!-- Login Start -->
         <div style="margin-left: 38%; margin-bottom: 2%;"> 
-            <form class="form">
+            <form class="form" method="post">
+                {% csrf_token %}
             <p class="form-title">Forgot Password</p>
+            <div class="messages">
+                <ul>
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}" style=" margin-left:50px; color:red;" {% endif %}>{{message}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
                 <div class="input-container">
-                <input placeholder="Enter email" type="email">
+                <input placeholder="Enter email" type="email" name="email">
             </div>
                 <button class="submit" type="submit">
                 Send Email

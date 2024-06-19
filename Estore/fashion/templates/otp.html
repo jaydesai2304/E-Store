@@ -78,11 +78,22 @@
         
         <!-- Login Start -->
         <div style="margin-left: 38%; margin-bottom: 2%;"> 
-            <form class="form">
+            <form class="form" method = "post">
+                {% csrf_token %}
             <p class="form-title">OTP</p>
+            <div class="messages">
+                <ul>
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}" style=" margin-left:50px; color:red;" {% endif %}>{{message}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
                 <div class="input-container">
-                <input placeholder="Enter otp">
-                
+                    <p>
+                        <input type="hidden" name="email" value="{{ email }}" />
+                        <input type="hidden" name="fake_otp" value="{{ fake_otp }}" />
+                        <input class="otp" type="text" placeholder="Enter otp" id="otp" name="enter_otp" required/>
+                    </p>
             </div>
                 <button class="submit" type="submit">
                 Submit
