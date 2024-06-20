@@ -42,7 +42,7 @@ class RegisterView(generics.CreateAPIView):
     template_name = "register.html"
 
     def get(self, request):
-        if "username" not in request.session:
+        if "username" in request.session:
             return redirect("index")
         serializer = RegisterSerializers()
         return render(request, self.template_name)
@@ -76,7 +76,7 @@ class LogoutView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         if "username" in request.session:
             del request.session["username"]
-        return redirect("login") 
+        return redirect("index") 
 
 class ForgotView(generics.CreateAPIView):
     renderer_classes = [TemplateHTMLRenderer]
