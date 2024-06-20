@@ -133,7 +133,7 @@
     $('.brand-slider').slick({
         speed: 5000,
         autoplay: true,
-        autoplaySpeed: 0,
+        autoplaySpeed: 2000,
         cssEase: 'linear',
         slidesToShow: 5,
         slidesToScroll: 1,
