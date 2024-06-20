@@ -59,7 +59,7 @@ class LoginView(generics.GenericAPIView):
     template_name = "login.html"
 
     def get(self, request, *args, **kwargs):
-        if "username" not in request.session:
+        if "username" in request.session:
             return redirect("index")
         return render(request, self.template_name)
 
@@ -84,7 +84,7 @@ class ForgotView(generics.CreateAPIView):
     serializer_class = ForgotSerializer
 
     def get(self, request):
-        if "username" not in request.session:
+        if "username" in request.session:
             return redirect("index")
         return render(request, self.template_name)
 
@@ -108,7 +108,7 @@ class OtpView(generics.CreateAPIView):
     serializer_class = OtpSerializer
 
     def get(self, request):
-        if "username" not in request.session:
+        if "username" in request.session:
             return redirect("index")
         return render(request, self.template_name)
 
@@ -126,7 +126,7 @@ class ResetpasswordView(generics.CreateAPIView):
     serializer_class = ResetpasswordSerializer
 
     def get(self, request):
-        if "username" not in request.session:
+        if "username" in request.session:
             return redirect("index")
         return render(request, self.template_name)
 
