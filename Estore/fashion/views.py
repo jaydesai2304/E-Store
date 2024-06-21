@@ -96,7 +96,7 @@ class ForgotView(generics.CreateAPIView):
         otp = str(random.randint(1000, 9999))
         request.session["email"] = email
         request.session["otp"] = otp
-        email_subject = "Your OTP Code"
+        email_subject = "Reset Password"
         email_body = f"Your OTP code is: {otp}"
         email = EmailMessage(email_subject, email_body, to=[email])
         email.send()
