@@ -32,9 +32,6 @@ def product_list(request):
 def wishlist(request):
     return render(request, 'wishlist.html')
 
-def Reset_password(request):
-    return render(request, 'reset_password.html')
-
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializers
