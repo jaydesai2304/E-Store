@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from rest_framework import generics
+from .models import MenProduct
 from .serializers import RegisterSerializers, LoginSerializer, ForgotSerializer, OtpSerializer, ResetpasswordSerializer
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -23,14 +24,19 @@ def contact(reqest):
 def my_account(request):
     return render(request, "my-account.html")
 
-def product_detail(request):
-    return render(request, 'product-detail.html')
+def product_detail(request, id):
+    menproducts = MenProduct.objects.filter(id=id)
+    return render(request, 'product-detail.html' , {'menproducts': menproducts})
 
 def product_list(request):
     return render(request, 'product-list.html')
 
 def wishlist(request):
     return render(request, 'wishlist.html')
+
+def men_product(request):
+    menproducts = MenProduct.objects.all()
+    return render(request, "men-product.html", {'menproducts':menproducts})
 
 
 class RegisterView(generics.CreateAPIView):

@@ -3,6 +3,7 @@
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
+    
 
     <body>
         <!-- Bottom Bar Start -->
@@ -13,6 +14,24 @@
                         <div class="logo">
                             <a href="{% url 'index' %}">
                                 <img src="{% static 'img/logo.png' %}" alt="Logo">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="search">
+                            <input type="text" placeholder="Search">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="user">
+                            <a href="wishlist.html" class="btn wishlist">
+                                <i class="fa fa-heart"></i>
+                                <span>(0)</span>
+                            </a>
+                            <a href="cart.html" class="btn cart">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>(0)</span>
                             </a>
                         </div>
                     </div>
@@ -40,30 +59,34 @@
                         <div class="product-detail-top">
                             <div class="row align-items-center">
                                 <div class="col-md-5">
+                                    {% for i in menproducts %}
+
                                     <div class="product-slider-single normal-slider">
-                                        <img src="{% static 'img/product-1.jpg' %}" alt="Product Image">
-                                        <img src="{% static 'img/product-3.jpg' %}" alt="Product Image">
-                                        <img src="{% static 'img/product-5.jpg' %}" alt="Product Image">
-                                        <img src="{% static 'img/product-7.jpg' %}" alt="Product Image">
-                                        <img src="{% static 'img/product-9.jpg' %}" alt="Product Image">
-                                        <img src="{% static 'img/product-10.jpg' %}" alt="Product Image">
+                                        <img src="{{ i.image.url }}" class="img-fluid product-thumbnail">
+                                        <img src="{{ i.image1.url }}" class="img-fluid product-thumbnail">
+                                        <img src="{{ i.image2.url }}" class="img-fluid product-thumbnail">
+
                                     </div>
                                     <div class="product-slider-single-nav normal-slider">
-                                        <div class="slider-nav-img"><img src="{% static 'img/product-1.jpg' %}" alt="Product Image"></div>
-                                        <div class="slider-nav-img"><img src="{% static 'img/product-3.jpg' %}" alt="Product Image"></div>
-                                        <div class="slider-nav-img"><img src="{% static 'img/product-5.jpg' %}" alt="Product Image"></div>
+                                        <div class="slider-nav-img"><img src="{{ i.image.url }}" class="img-fluid product-thumbnail" alt="Product Image"></div>
+                                        <div class="slider-nav-img"><img src="{{ i.image1.url }}" class="img-fluid product-thumbnail" alt="Product Image"></div>
+                                        <div class="slider-nav-img"><img src="{{ i.image2.url }}" class="img-fluid product-thumbnail" alt="Product Image"></div>
                                         <div class="slider-nav-img"><img src="{% static 'img/product-7.jpg' %}" alt="Product Image"></div>
                                         <div class="slider-nav-img"><img src="{% static 'img/product-9.jpg' %}" alt="Product Image"></div>
                                         <div class="slider-nav-img"><img src="{% static 'img/product-10.jpg' %}" alt="Product Image"></div>
                                     </div>
+                                   
+                                    
                                 </div>
+                                
                                 <div class="col-md-7">
                                     <div class="product-content">
                                         <div class="title"><h2>Product Name</h2></div>
                                         <div class="price">
-                                            <h4>Price:</h4>
-                                            <p>$99 <span>$149</span></p>
+                                            <h4>Price: </h4>
+                                            <p>{{ i.price }}</p>
                                         </div>
+                                        {% endfor %}
                                         <div class="quantity">
                                             <h4>Quantity:</h4>
                                             <div class="qty">
@@ -97,12 +120,14 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="row product-detail-bottom">
                             <div class="col-lg-12">
                                 <ul class="nav nav-pills nav-justified">
                                     <li class="nav-item">
                                         <a class="nav-link active" data-toggle="pill" href="#description">Description</a>
                                     </li>
+                                    
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="pill" href="#reviews">Reviews (1)</a>
                                     </li>
@@ -115,10 +140,21 @@
                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum quam ac mi viverra dictum. In efficitur ipsum diam, at dignissim lorem tempor in. Vivamus tempor hendrerit finibus. Nulla tristique viverra nisl, sit amet bibendum ante suscipit non. Praesent in faucibus tellus, sed gravida lacus. Vivamus eu diam eros. Aliquam et sapien eget arcu rhoncus scelerisque. Suspendisse sit amet neque neque. Praesent suscipit et magna eu iaculis. Donec arcu libero, commodo ac est a, malesuada finibus dolor. Aenean in ex eu velit semper fermentum. In leo dui, aliquet sit amet eleifend sit amet, varius in turpis. Maecenas fermentum ut ligula at consectetur. Nullam et tortor leo. 
                                         </p>
                                     </div>
+                                    <div id="specification" class="container tab-pane fade">
+                                        <h4>Product specification</h4>
+                                        <ul>
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <li>Lorem ipsum dolor sit amet</li>
+                                        </ul>
+                                    </div>
                                     <div id="reviews" class="container tab-pane fade">
                                         <div class="reviews-submitted">
                                             <div class="reviewer">Phasellus Gravida - <span>01 Jan 2020</span></div>
                                             <p>
+                                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde, placeat?
                                                 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
                                             </p>
                                         </div>
@@ -364,6 +400,7 @@
         </div>
         <!-- Brand End -->
         
+      
     </body>
-{% endblock content %}
+    {% endblock content %}
 </html>
