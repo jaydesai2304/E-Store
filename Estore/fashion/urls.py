@@ -10,11 +10,11 @@ urlpatterns = [
     path('checkout/', views.checkout, name="checkout"),
     path('contact/', views.contact, name="contact"),
     path('my_account/', views.my_account, name="my_account"),
-    path('product_detail/<id>', views.product_detail, name="product_detail"),
     path('product_list/', views.product_list, name="product_list"),
     path('wishlist/', views.wishlist, name="wishlist"),
     path('men_product/', views.men_product, name="men_product"),
-
+    path('women_product/', views.women_product, name="women_product"),
+    path('product/<str:category>/<int:id>/', views.product_detail, name='product_detail'),
 
     path('reset_password/', ResetpasswordView.as_view(), name="reset_password"),
     path('forgot/', ForgotView.as_view(), name="forgot"),
