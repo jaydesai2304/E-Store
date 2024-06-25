@@ -107,10 +107,10 @@
                                         <a href="#">{{i.name }}</a>
                                     </div>
                                     <div class="product-image">
-                                        <a href= {%url "product_detail" i.id %}>
+                                        <a href="{% url 'product_detail' category='men' id=i.id %}">
                                             <img src="{{ i.image.url }}" class="img-fluid product-thumbnail">
                                         </a>
-
+                            
                                     </div>
                                     <div class="product-price">
                                         <h3>{{i.price}}</h3>
