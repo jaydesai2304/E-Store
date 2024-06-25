@@ -53,8 +53,9 @@ class RegisterView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = RegisterSerializers(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
-        return render(request, self.template_name, {'user': user})
+            serializer.save()
+            return redirect("login")
+        return render(request, self.template_name)
 
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
