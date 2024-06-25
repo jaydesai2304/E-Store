@@ -53,22 +53,22 @@
         <!-- Product List Start -->
         <div class="product-view">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-8">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="product-view-top">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="product-search">
-                                                <input type="email" value="Search">
+                                                <input type="text" placeholder="Search">
                                                 <button><i class="fa fa-search"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="product-short">
                                                 <div class="dropdown">
-                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product short by</div>
+                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product sort by</div>
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <a href="#" class="dropdown-item">Newest</a>
                                                         <a href="#" class="dropdown-item">Popular</a>
@@ -101,7 +101,7 @@
                             </div>
                             
                             {% for i in menproducts %}
-                            <div class="col-md-4">
+                            <div class="col-md-3 col-sm-6">
                                 <div class="product-item">
                                     <div class="product-title">
                                         <a href="#">{{i.name }}</a>
@@ -110,7 +110,6 @@
                                         <a href="{% url 'product_detail' category='men' id=i.id %}">
                                             <img src="{{ i.image.url }}" class="img-fluid product-thumbnail">
                                         </a>
-                            
                                     </div>
                                     <div class="product-price">
                                         <h3>{{i.price}}</h3>
@@ -137,11 +136,15 @@
                                 </ul>
                             </nav>
                         </div>
-                        <!-- Pagination Start -->
-                    </div>           
+                        <!-- Pagination End -->
+                    </div>
+                </div>
+            </div>
+             
+                </div>          
                     
                     <!-- Side Bar Start -->
-                    <div class="col-lg-4 sidebar">
+                    {% comment %} <div class="col-lg-4 sidebar">
                         <div class="sidebar-widget category">
                             <h2 class="title">Category</h2>
                             <nav class="navbar bg-light">
@@ -156,7 +159,7 @@
                                         <a class="nav-link" href="{% url 'men_product'%}"><i class="fa fa-male"></i>Men's Clothes</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#"><i class="fa fa-female"></i>Women's Clothes</a>
+                                        <a class="nav-link" href="{% url 'women_product' %}"><i class="fa fa-female"></i>Women's Clothes</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#"><i class="fa fa-child"></i>Kids & Babies Clothes</a>
@@ -217,7 +220,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     <!-- Side Bar End -->
                 </div>
             </div>
