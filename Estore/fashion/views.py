@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import generics
-from .models import MenProduct
+from .models import MenProduct,WomenProduct
 from .serializers import RegisterSerializers, LoginSerializer, ForgotSerializer, OtpSerializer, ResetpasswordSerializer
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -24,9 +24,12 @@ def contact(reqest):
 def my_account(request):
     return render(request, "my-account.html")
 
-def product_detail(request, id):
-    menproducts = MenProduct.objects.filter(id=id)
-    return render(request, 'product-detail.html' , {'menproducts': menproducts})
+def product_detail(request, category, id):
+    if category == 'men':
+        product = get_object_or_404(MenProduct, id=id)
+    else:
+        product = get_object_or_404(WomenProduct, id=id)
+    return render(request, 'product-detail.html', {'product': product})
 
 def product_list(request):
     return render(request, 'product-list.html')
@@ -36,7 +39,11 @@ def wishlist(request):
 
 def men_product(request):
     menproducts = MenProduct.objects.all()
-    return render(request, "men-product.html", {'menproducts':menproducts})
+    return render(request, "men-product.html", {'menproducts': menproducts})
+
+def women_product(request):
+    womenproduct = WomenProduct.objects.all()
+    return render(request, "women-product.html", {'womenproduct': womenproduct})
 
 
 class RegisterView(generics.CreateAPIView):
@@ -143,3 +150,4 @@ class ResetpasswordView(generics.CreateAPIView):
             messages.error(request, serializer.errors["non_field_errors"][0])
             return redirect("reset_password")
         return redirect("login")
+    
