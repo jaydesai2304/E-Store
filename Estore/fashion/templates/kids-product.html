@@ -100,14 +100,14 @@
                                 </div>
                             </div>
                             
-                            {% for i in menproducts %}
+                            {% for i in kidsproduct %}
                             <div class="col-md-3 col-sm-6">
                                 <div class="product-item">
                                     <div class="product-title">
                                         <a href="#">{{i.name }}</a>
                                     </div>
                                     <div class="product-image">
-                                        <a href="{% url 'product_detail' category='men' id=i.id %}">
+                                        <a href="{% url 'product_detail' category='kid' id=i.id %}">
                                             <img src="{{ i.image.url }}" class="img-fluid product-thumbnail">
                                         </a>
                                     </div>
