@@ -27,8 +27,10 @@ def my_account(request):
 def product_detail(request, category, id):
     if category == 'men':
         product = get_object_or_404(MenProduct, id=id)
-    else:
+    elif category == 'women':
         product = get_object_or_404(WomenProduct, id=id)
+    else:
+        product = get_object_or_404(KidsProduct, id=id)
     return render(request, 'product-detail.html', {'product': product})
 
 def product_list(request):
