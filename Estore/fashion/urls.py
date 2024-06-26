@@ -14,6 +14,7 @@ urlpatterns = [
     path('wishlist/', views.wishlist, name="wishlist"),
     path('men_product/', views.men_product, name="men_product"),
     path('women_product/', views.women_product, name="women_product"),
+    path('kids_product/', views.kids_product, name="kids_product"),
     path('product/<str:category>/<int:id>/', views.product_detail, name='product_detail'),
 
     path('reset_password/', ResetpasswordView.as_view(), name="reset_password"),
