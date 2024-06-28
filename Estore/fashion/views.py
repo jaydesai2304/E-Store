@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import generics
-from .models import MenProduct,WomenProduct, KidsProduct
+from .models import MenProduct,WomenProduct, KidsProduct, FashionProduct
 from .serializers import RegisterSerializers, LoginSerializer, ForgotSerializer, OtpSerializer, ResetpasswordSerializer
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -29,6 +29,8 @@ def product_detail(request, category, id):
         product = get_object_or_404(MenProduct, id=id)
     elif category == 'women':
         product = get_object_or_404(WomenProduct, id=id)
+    elif category == 'fashion':
+        product = get_object_or_404(FashionProduct, id=id)    
     else:
         product = get_object_or_404(KidsProduct, id=id)
     return render(request, 'product-detail.html', {'product': product})
@@ -50,6 +52,10 @@ def women_product(request):
 def kids_product(request):
     kidsproduct = KidsProduct.objects.all()
     return render(request, "kids-product.html", {'kidsproduct': kidsproduct})
+
+def fashion_product(request):
+    fashionproduct= FashionProduct.objects.all()
+    return render(request, "fashion-product.html",{'fashionproduct': fashionproduct})
 
 
 class RegisterView(generics.CreateAPIView):
