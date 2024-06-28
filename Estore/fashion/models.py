@@ -32,4 +32,12 @@ class KidsProduct(models.Model):
     image = models.ImageField(upload_to='Menproducts/', default='')
     image1 = models.ImageField(upload_to='Menproducts/', default='')
     image2 = models.ImageField(upload_to='Menproducts/', default='')
+
+class FashionProduct(models.Model):
+    name = models.CharField(max_length=100)
+    discription = models.CharField(max_length=100,default='')
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    image = models.ImageField(upload_to='Menproducts/', default='')
+    image1 = models.ImageField(upload_to='Menproducts/', default='')
+    image2 = models.ImageField(upload_to='Menproducts/', default='')
     
