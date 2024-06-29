@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="utf-8">
         <title>E - Store</title>
@@ -42,6 +43,7 @@
                             <a href="{% url 'contact' %}" class="nav-item nav-link {% if request.path == '/contact/' %}active{% endif %}">Contact Us</a>
                             <a href="{% url 'my_account' %}" class="nav-item nav-link {% if request.path == '/my_account/' %}active{% endif %}">My Account</a>
                         </div>
+                        
                         <div class="navbar-nav ml-auto">
                             <div class="nav-item dropdown">
                                 {% if request.session.username %} 
