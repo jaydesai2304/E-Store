@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import generics
-from .models import MenProduct,WomenProduct, KidsProduct, FashionProduct
+from .models import MenProduct,WomenProduct, KidsProduct, FashionProduct, GadgetProduct
 from .serializers import RegisterSerializers, LoginSerializer, ForgotSerializer, OtpSerializer, ResetpasswordSerializer
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -30,7 +30,9 @@ def product_detail(request, category, id):
     elif category == 'women':
         product = get_object_or_404(WomenProduct, id=id)
     elif category == 'fashion':
-        product = get_object_or_404(FashionProduct, id=id)    
+        product = get_object_or_404(FashionProduct, id=id)  
+    elif category == 'gadget':
+        product = get_object_or_404(GadgetProduct, id=id)
     else:
         product = get_object_or_404(KidsProduct, id=id)
     return render(request, 'product-detail.html', {'product': product})
@@ -54,8 +56,12 @@ def kids_product(request):
     return render(request, "kids-product.html", {'kidsproduct': kidsproduct})
 
 def fashion_product(request):
-    fashionproduct= FashionProduct.objects.all()
-    return render(request, "fashion-product.html",{'fashionproduct': fashionproduct})
+    fashionproduct = FashionProduct.objects.all()
+    return render(request, "fashion-product.html", {'fashionproduct': fashionproduct})
+
+def gadget_product(request):
+    gadgetproduct = GadgetProduct.objects.all()
+    return render(request, "gadget-product.html", {'gadgetproduct': gadgetproduct})
 
 
 class RegisterView(generics.CreateAPIView):
