@@ -1,7 +1,21 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import generics
-from .models import MenProduct,WomenProduct, KidsProduct, FashionProduct, GadgetProduct
-from .serializers import RegisterSerializers, LoginSerializer, ForgotSerializer, OtpSerializer, ResetpasswordSerializer
+from .models import (
+    Register,
+    MenProduct,
+    WomenProduct,
+    KidsProduct,
+    FashionProduct,
+    GadgetProduct,
+)
+from .serializers import (
+    RegisterSerializers,
+    LoginSerializer,
+    ForgotSerializer,
+    OtpSerializer,
+    ResetpasswordSerializer,
+    EditprofileSerializer,
+)
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
 from rest_framework.response import Response
@@ -9,59 +23,72 @@ from rest_framework import status
 from django.core.mail import EmailMessage
 import random
 
+
 def index(request):
-    return render(request, 'index.html')
+    return render(request, "index.html")
+
 
 def cart(request):
-    return render(request, 'cart.html')
+    return render(request, "cart.html")
+
 
 def checkout(request):
-    return render(request, 'checkout.html')
+    return render(request, "checkout.html")
+
 
 def contact(reqest):
-    return render(reqest, 'contact.html')
+    return render(reqest, "contact.html")
+
 
 def my_account(request):
     return render(request, "my-account.html")
 
+
 def product_detail(request, category, id):
-    if category == 'men':
+    if category == "men":
         product = get_object_or_404(MenProduct, id=id)
-    elif category == 'women':
+    elif category == "women":
         product = get_object_or_404(WomenProduct, id=id)
-    elif category == 'fashion':
-        product = get_object_or_404(FashionProduct, id=id)  
-    elif category == 'gadget':
+    elif category == "fashion":
+        product = get_object_or_404(FashionProduct, id=id)
+    elif category == "gadget":
         product = get_object_or_404(GadgetProduct, id=id)
     else:
         product = get_object_or_404(KidsProduct, id=id)
-    return render(request, 'product-detail.html', {'product': product})
+    return render(request, "product-detail.html", {"product": product})
+
 
 def product_list(request):
-    return render(request, 'product-list.html')
+    return render(request, "product-list.html")
+
 
 def wishlist(request):
-    return render(request, 'wishlist.html')
+    return render(request, "wishlist.html")
+
 
 def men_product(request):
     menproducts = MenProduct.objects.all()
-    return render(request, "men-product.html", {'menproducts': menproducts})
+    return render(request, "men-product.html", {"menproducts": menproducts})
+
 
 def women_product(request):
     womenproduct = WomenProduct.objects.all()
-    return render(request, "women-product.html", {'womenproduct': womenproduct})
+    return render(request, "women-product.html", {"womenproduct": womenproduct})
+
 
 def kids_product(request):
     kidsproduct = KidsProduct.objects.all()
-    return render(request, "kids-product.html", {'kidsproduct': kidsproduct})
+    return render(request, "kids-product.html", {"kidsproduct": kidsproduct})
+
 
 def fashion_product(request):
     fashionproduct = FashionProduct.objects.all()
-    return render(request, "fashion-product.html", {'fashionproduct': fashionproduct})
+    return render(request, "fashion-product.html", {"fashionproduct": fashionproduct})
+
 
 def gadget_product(request):
     gadgetproduct = GadgetProduct.objects.all()
-    return render(request, "gadget-product.html", {'gadgetproduct': gadgetproduct})
+    return render(request, "gadget-product.html", {"gadgetproduct": gadgetproduct})
 
 
 class RegisterView(generics.CreateAPIView):
@@ -82,6 +109,7 @@ class RegisterView(generics.CreateAPIView):
             return redirect("login")
         return render(request, self.template_name)
 
+
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     renderer_classes = [TemplateHTMLRenderer]
@@ -95,17 +123,19 @@ class LoginView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.data.get('username')
+            user = serializer.data.get("username")
             request.session["username"] = user
             return redirect("index")
         messages.error(request, serializer.errors["non_field_errors"][0])
-        return render(request, self.template_name, {'serializer': serializer})
-    
+        return render(request, self.template_name, {"serializer": serializer})
+
+
 class LogoutView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         if "username" in request.session:
             del request.session["username"]
-        return redirect("index") 
+        return redirect("index")
+
 
 class ForgotView(generics.CreateAPIView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -130,7 +160,8 @@ class ForgotView(generics.CreateAPIView):
         email = EmailMessage(email_subject, email_body, to=[email])
         email.send()
         return redirect("otp")
-    
+
+
 class OtpView(generics.CreateAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "otp.html"
@@ -149,6 +180,8 @@ class OtpView(generics.CreateAPIView):
             return redirect("otp")
         return redirect("reset_password")
     
+
+
 class ResetpasswordView(generics.CreateAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "reset_password.html"
@@ -169,3 +202,40 @@ class ResetpasswordView(generics.CreateAPIView):
             return redirect("reset_password")
         return redirect("login")
     
+
+class ProfileView(generics.CreateAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "my-account.html"
+
+    def get(self, request):
+        if "username" not in request.session:
+            return redirect("login")
+        username = request.session.get("username")
+        person_details = Register.objects.filter(username=username).first()
+        return render(request, self.template_name, context={"details": person_details})
+
+
+
+class EditprofileView(generics.CreateAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "editprofile.html"
+    serializer_class = EditprofileSerializer
+
+    def get(self, request):
+        if "username" not in request.session:
+            return redirect("login")
+        username = request.session.get("username")
+        person_details = Register.objects.filter(username=username)
+        return render(
+            request, self.template_name, context={"person_details": person_details}
+        )
+
+    def post(self, request):
+        username = request.session.get("username")
+        serializer = EditprofileSerializer(
+            data=request.data, context={"user_id": username}
+        )
+        if serializer.is_valid():
+            return redirect("profile")
+        messages.error(request, serializer.errors["non_field_errors"][0])
+        return redirect("edit")
