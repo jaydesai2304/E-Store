@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Register, MenProduct, WomenProduct, KidsProduct, FashionProduct
+from .models import Register, MenProduct, WomenProduct, KidsProduct, FashionProduct, GadgetProduct
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -13,3 +13,5 @@ admin.site.register(WomenProduct)
 admin.site.register(KidsProduct)
 
 admin.site.register(FashionProduct)
+
+admin.site.register(GadgetProduct)
