@@ -47,10 +47,10 @@
                                     <a class="nav-link" href="#"><i class="fa fa-home"></i>Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#"><i class="fa fa-plus-square"></i>New Arrivals</a>
+                                    <a class="nav-link" href="{% url 'arrival_product' %}"><i class="fa fa-plus-square"></i>New Arrivals</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'men_product'%}"><i class="fa fa-male"></i>Men's Clothes</a>
+                                    <a class="nav-link" href="{% url 'men_product' %}"><i class="fa fa-male"></i>Men's Clothes</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'women_product' %}"><i class="fa fa-female"></i>Women's Clothes</a>
@@ -458,7 +458,9 @@
             </div>
         </div>
         <!-- Review End -->
-        
+
+        <div><script src="https://cdn.logwork.com/widget/countdown.js"></script>
+            <a href="https://logwork.com/countdown-timer" class="countdown-timer" data-timezone="Asia/Kolkata" data-date="2024-07-04 10:08">Countdown Timer</a></div>        
     </body>
 {% endblock content %}
 </html>
