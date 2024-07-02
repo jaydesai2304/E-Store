@@ -306,10 +306,13 @@
                         <h1>Subscribe Our Newsletter</h1>
                     </div>
                     <div class="col-md-6">
+                        <form action="{% url 'newsletter' %}" method="post">
+                            {% csrf_token %}
                         <div class="form">
-                            <input type="email" value="Your email here">
+                            <input type="email" placeholder="Enter Your Email" name="email" required="" />
                             <button>Submit</button>
                         </div>
+                    </form>
                     </div>
                 </div>
             </div>
@@ -458,9 +461,7 @@
             </div>
         </div>
         <!-- Review End -->
-
-        <div><script src="https://cdn.logwork.com/widget/countdown.js"></script>
-            <a href="https://logwork.com/countdown-timer" class="countdown-timer" data-timezone="Asia/Kolkata" data-date="2024-07-04 10:08">Countdown Timer</a></div>        
+                 
     </body>
 {% endblock content %}
 </html>
