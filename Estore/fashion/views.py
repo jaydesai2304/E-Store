@@ -40,8 +40,16 @@ def contact(reqest):
     return render(reqest, "contact.html")
 
 
+def product_list(request):
+    return render(request, "product-list.html")
+
+
 def my_account(request):
     return render(request, "my-account.html")
+
+
+def wishlist(request):
+    return render(request, "wishlist.html")
 
 
 def product_detail(request, category, id):
@@ -56,14 +64,6 @@ def product_detail(request, category, id):
     else:
         product = get_object_or_404(KidsProduct, id=id)
     return render(request, "product-detail.html", {"product": product})
-
-
-def product_list(request):
-    return render(request, "product-list.html")
-
-
-def wishlist(request):
-    return render(request, "wishlist.html")
 
 
 def men_product(request):
