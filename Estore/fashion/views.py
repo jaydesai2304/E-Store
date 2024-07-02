@@ -7,6 +7,7 @@ from .models import (
     KidsProduct,
     FashionProduct,
     GadgetProduct,
+    News_Letter,
     
 )
 from .serializers import (
@@ -16,6 +17,7 @@ from .serializers import (
     OtpSerializer,
     ResetpasswordSerializer,
     EditprofileSerializer,
+    NewsLetterSerializers,
 )
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -244,3 +246,23 @@ class EditprofileView(generics.CreateAPIView):
             return redirect("profile")
         messages.error(request, serializer.errors["non_field_errors"][0])
         return redirect("edit")
+    
+
+class NewsLetterView(generics.CreateAPIView):
+    serializer_class = NewsLetterSerializers
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "index.html"
+
+    def get(self, request):
+        if "username" in request.session:
+            return redirect("index")
+        serializer = NewsLetterSerializers()
+        return render(request, self.template_name, {'serializer': serializer})
+
+    def post(self, request, *args, **kwargs):
+        serializer = NewsLetterSerializers(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return redirect("index")
+        return render(request, self.template_name)
+
