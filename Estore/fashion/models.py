@@ -49,3 +49,6 @@ class GadgetProduct(models.Model):
     image1 = models.ImageField(upload_to='Menproducts/', default='')
     image2 = models.ImageField(upload_to='Menproducts/', default='')
     
+
+class News_Letter(models.Model):
+    email = models.EmailField(max_length=254)
