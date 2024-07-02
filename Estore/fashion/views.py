@@ -7,6 +7,7 @@ from .models import (
     KidsProduct,
     FashionProduct,
     GadgetProduct,
+    
 )
 from .serializers import (
     RegisterSerializers,
@@ -89,6 +90,10 @@ def fashion_product(request):
 def gadget_product(request):
     gadgetproduct = GadgetProduct.objects.all()
     return render(request, "gadget-product.html", {"gadgetproduct": gadgetproduct})
+
+
+def arrival_product(request):
+    return render(request, "new-products.html")
 
 
 class RegisterView(generics.CreateAPIView):
