@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Register
+from .models import Register, News_Letter
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueValidator
 from django.core.exceptions import ValidationError
@@ -110,6 +110,7 @@ class ResetpasswordSerializer(serializers.ModelSerializer):
 
 
 class EditprofileSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Register
         fields = ("fullname", "phone_number")
@@ -131,3 +132,15 @@ class EditprofileSerializer(serializers.ModelSerializer):
             person_details.phone_number = phone_number
             person_details.save()
         return data
+
+class NewsLetterSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = News_Letter
+        fields = "__all__"
+    
+        def create(self, validated_data):
+            user = News_Letter.objects.create(**validated_data)
+            return user
+           
+       
