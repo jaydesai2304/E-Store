@@ -1,0 +1,73 @@
+{% extends "header.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <body> 
+        <!-- Bottom Bar Start -->
+        <div class="bottom-bar">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <div class="logo">
+                            <a href="{% url 'index' %}">
+                                <img src="{% static 'img/logo.png' %}" alt="Logo">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bottom Bar End -->  
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="breadcrumb-item active">New Arrivals Products</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+
+        <div><script src="https://cdn.logwork.com/widget/countdown.js"></script>
+            <a href="https://logwork.com/countdown-fee6" class="countdown-timer" data-timezone="Asia/Kolkata" data-date="2024-07-04 10:08">Coming soon</a></div>        
+        
+        <!-- Product List Start -->
+        <div class="product-view">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="row">
+                            
+                            
+                            {% for i in kidsproduct %}
+                            <div class="col-md-3 col-sm-6">
+                                <div class="product-item">
+                                    <div class="product-title">
+                                        <a href="#">{{i.name }}</a>
+                                    </div>
+                                    <div class="product-image">
+                                        <a href="{% url 'product_detail' category='kid' id=i.id %}">
+                                            <img src="{{ i.image.url }}" class="img-fluid product-thumbnail">
+                                        </a>
+                                    </div>
+                                    <div class="product-price">
+                                        <h3>{{i.price}}</h3>
+                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>          
+        <!-- Product List End -->  
+        
+    </body>
+{% endblock content %}
+</html>
