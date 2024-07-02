@@ -1,9 +1,25 @@
 from django.contrib import admin
-from .models import Register, MenProduct, WomenProduct, KidsProduct, FashionProduct, GadgetProduct
+from .models import (
+    Register,
+    MenProduct,
+    WomenProduct,
+    KidsProduct,
+    FashionProduct,
+    GadgetProduct,
+
+)
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("fname","username","email","phone_no","password",)
+    list_display = (
+        "fname",
+        "username",
+        "email",
+        "phone_no",
+        "password",
+    )
+
+
 admin.site.register(Register, UserAdmin)
 
 admin.site.register(MenProduct)
