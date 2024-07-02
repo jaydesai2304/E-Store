@@ -2,7 +2,7 @@ from django.urls import path
 from fashion import views 
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import RegisterView, LoginView, OtpView, ForgotView, ResetpasswordView, LogoutView
+from .views import RegisterView, LoginView, OtpView, ForgotView, ResetpasswordView, LogoutView, NewsLetterView
 
 urlpatterns = [   
     path('', views.index,name="index"),
@@ -27,6 +27,8 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name="register"),
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
+    path('newsletter/', NewsLetterView.as_view(), name="newsletter")
+
    
 
 ]
