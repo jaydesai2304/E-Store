@@ -2,14 +2,14 @@ from django.urls import path
 from fashion import views 
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import RegisterView, LoginView, OtpView, ForgotView, ResetpasswordView, LogoutView, NewsLetterView
+from .views import RegisterView, LoginView, OtpView, ForgotView, ProfileView, ResetpasswordView, LogoutView, NewsLetterView
 
 urlpatterns = [   
     path('', views.index,name="index"),
     path('cart/', views.cart, name="cart"),
     path('checkout/', views.checkout, name="checkout"),
     path('contact/', views.contact, name="contact"),
-    path('my_account/', views.my_account, name="my_account"),
+    
     path('product_list/', views.product_list, name="product_list"),
     path('wishlist/', views.wishlist, name="wishlist"),
     path('men_product/', views.men_product, name="men_product"),
@@ -27,10 +27,10 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name="register"),
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
-    path('newsletter/', NewsLetterView.as_view(), name="newsletter")
+    path('newsletter/', NewsLetterView.as_view(), name="newsletter"),
+    path('my_account/', ProfileView.as_view(), name="my_account"),
 
    
-
 ]
 
 if settings.DEBUG:
