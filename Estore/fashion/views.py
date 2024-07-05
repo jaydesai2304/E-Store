@@ -47,10 +47,6 @@ def product_list(request):
     return render(request, "product-list.html")
 
 
-def my_account(request):
-    return render(request, "my-account.html")
-
-
 def wishlist(request):
     return render(request, "wishlist.html")
 
@@ -218,10 +214,9 @@ class ProfileView(generics.CreateAPIView):
         if "username" not in request.session:
             return redirect("login")
         username = request.session.get("username")
-        person_details = Register.objects.filter(username=username).first()
+        person_details = Register.objects.filter(username=username)
         return render(request, self.template_name, context={"details": person_details})
-
-
+    
 
 class EditprofileView(generics.CreateAPIView):
     renderer_classes = [TemplateHTMLRenderer]
