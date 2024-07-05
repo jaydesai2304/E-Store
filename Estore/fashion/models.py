@@ -52,3 +52,14 @@ class GadgetProduct(models.Model):
 
 class News_Letter(models.Model):
     email = models.EmailField(max_length=254)
+
+
+class CartItem(models.Model):
+    menproduct = models.ForeignKey(MenProduct, null = True ,blank = True, on_delete = models.CASCADE)
+    womenproduct = models.ForeignKey(WomenProduct, null = True ,blank = True, on_delete = models.CASCADE)
+    kidsproduct = models.ForeignKey(KidsProduct, null = True ,blank = True, on_delete = models.CASCADE)
+    fashionproduct = models.ForeignKey(FashionProduct, null = True ,blank = True, on_delete = models.CASCADE)
+    gadgetproduct = models.ForeignKey(GadgetProduct, null = True ,blank = True, on_delete = models.CASCADE)
+
+    quantity = models.PositiveIntegerField(default=0)
+    user = models.ForeignKey(Register, on_delete=models.CASCADE)
