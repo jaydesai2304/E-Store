@@ -7,6 +7,7 @@ from .models import (
     FashionProduct,
     GadgetProduct,
     News_Letter,
+    CartItem,
 
 )
 
@@ -34,3 +35,5 @@ admin.site.register(FashionProduct)
 admin.site.register(GadgetProduct)
 
 admin.site.register(News_Letter)
+
+admin.site.register(CartItem)
