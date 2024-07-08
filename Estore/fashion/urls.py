@@ -11,7 +11,7 @@ from .views import (
     ResetpasswordView,
     LogoutView,
     NewsLetterView,
-    AddToCartView,
+    add_to_cart,
 )
 
 urlpatterns = [
@@ -28,7 +28,8 @@ urlpatterns = [
     path("gadget_product/", views.gadget_product, name="gadget_product"),
     path("arrival_product/", views.arrival_product, name="arrival_product"),
     path("product/<str:category>/<int:id>/", views.product_detail, name="product_detail" ),
-    path("cart/", views.cart_view, name="cart"),
+
+    path('add-to-cart/<str:product_type>/<int:product_id>/', add_to_cart, name='add_to_cart'),
 
     
     path("reset_password/", ResetpasswordView.as_view(), name="reset_password"),
@@ -39,7 +40,6 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("newsletter/", NewsLetterView.as_view(), name="newsletter"),
     path("my_account/", ProfileView.as_view(), name="my_account"),
-    path("add-to-cart/", AddToCartView.as_view(), name="add_to_cart"),
 ]
 
 if settings.DEBUG:
