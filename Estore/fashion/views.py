@@ -8,6 +8,7 @@ from .models import (
     FashionProduct,
     GadgetProduct,
     News_Letter,
+    CartItem,
     
 )
 from .serializers import (
@@ -18,6 +19,7 @@ from .serializers import (
     ResetpasswordSerializer,
     EditprofileSerializer,
     NewsLetterSerializers,
+    CartItemSerializer
 )
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -218,29 +220,29 @@ class ProfileView(generics.CreateAPIView):
         return render(request, self.template_name, context={"details": person_details})
     
 
-class EditprofileView(generics.CreateAPIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = "editprofile.html"
-    serializer_class = EditprofileSerializer
+# class EditprofileView(generics.CreateAPIView):
+#     renderer_classes = [TemplateHTMLRenderer]
+#     template_name = "editprofile.html"
+#     serializer_class = EditprofileSerializer
 
-    def get(self, request):
-        if "username" not in request.session:
-            return redirect("login")
-        username = request.session.get("username")
-        person_details = Register.objects.filter(username=username)
-        return render(
-            request, self.template_name, context={"person_details": person_details}
-        )
+#     def get(self, request):
+#         if "username" not in request.session:
+#             return redirect("login")
+#         username = request.session.get("username")
+#         person_details = Register.objects.filter(username=username)
+#         return render(
+#             request, self.template_name, context={"person_details": person_details}
+#         )
 
-    def post(self, request):
-        username = request.session.get("username")
-        serializer = EditprofileSerializer(
-            data=request.data, context={"user_id": username}
-        )
-        if serializer.is_valid():
-            return redirect("profile")
-        messages.error(request, serializer.errors["non_field_errors"][0])
-        return redirect("edit")
+#     def post(self, request):
+#         username = request.session.get("username")
+#         serializer = EditprofileSerializer(
+#             data=request.data, context={"user_id": username}
+#         )
+#         if serializer.is_valid():
+#             return redirect("profile")
+#         messages.error(request, serializer.errors["non_field_errors"][0])
+#         return redirect("edit")
     
 
 class NewsLetterView(generics.CreateAPIView):
@@ -260,4 +262,28 @@ class NewsLetterView(generics.CreateAPIView):
             serializer.save()
             return redirect("index")
         return render(request, self.template_name)
+    
 
+class AddToCartView(generics.CreateAPIView):
+    def post(self, request):
+        data = request.data
+        product_type = data.get('product_type')
+        product_id = data.get('product_id')
+        quantity = data.get('quantity', 1)
+
+        serializer = CartItemSerializer(data={
+            'product_type': product_type,
+            'product_id': product_id,
+            'quantity': quantity,
+            'user': request.user.id
+        }, context={'request': request})
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+def cart_view(request):
+    cart_items = CartItem.objects.filter(user=request.user)
+    return render(request, 'cart.html', {'cart_items': cart_items})
