@@ -8,7 +8,7 @@ from .models import (
     FashionProduct,
     GadgetProduct,
     News_Letter,
-    CartItem,
+    CartItem
     
 )
 from .serializers import (
@@ -19,7 +19,7 @@ from .serializers import (
     ResetpasswordSerializer,
     EditprofileSerializer,
     NewsLetterSerializers,
-    CartItemSerializer
+   
 )
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -27,6 +27,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.core.mail import EmailMessage
 import random
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -94,6 +95,37 @@ def gadget_product(request):
 
 def arrival_product(request):
     return render(request, "new-products.html")
+
+@login_required
+def add_to_cart(request, product_type, product_id):
+    user=request.session["username"]
+    # Define a mapping from product types to their respective models
+    product_model = {
+        'men': MenProduct,
+        'women': WomenProduct,
+        'kids': KidsProduct,
+        'fashion': FashionProduct,
+        'gadget': GadgetProduct
+    }.get(product_type)
+
+    product = get_object_or_404(GadgetProduct, id=product_id)
+    # product = get_object_or_404(WomenProduct, id=product_id)
+    
+    register_user = Register.objects.filter(username=user).first()
+    
+    
+    cart_item, created = CartItem.objects.get_or_create(
+        user=register_user,
+        **{f'{product_type}product': product},
+        defaults={'quantity': 1}
+    )
+    
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+    
+    return redirect('cart')
+
 
 
 class RegisterView(generics.CreateAPIView):
@@ -262,28 +294,3 @@ class NewsLetterView(generics.CreateAPIView):
             serializer.save()
             return redirect("index")
         return render(request, self.template_name)
-    
-
-class AddToCartView(generics.CreateAPIView):
-    def post(self, request):
-        data = request.data
-        product_type = data.get('product_type')
-        product_id = data.get('product_id')
-        quantity = data.get('quantity', 1)
-
-        serializer = CartItemSerializer(data={
-            'product_type': product_type,
-            'product_id': product_id,
-            'quantity': quantity,
-            'user': request.user.id
-        }, context={'request': request})
-        
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-
-def cart_view(request):
-    cart_items = CartItem.objects.filter(user=request.user)
-    return render(request, 'cart.html', {'cart_items': cart_items})
