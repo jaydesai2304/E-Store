@@ -8,8 +8,7 @@ from .models import (
     FashionProduct,
     GadgetProduct,
     News_Letter,
-    CartItem
-    
+    CartItem,
 )
 from .serializers import (
     RegisterSerializers,
@@ -19,7 +18,7 @@ from .serializers import (
     ResetpasswordSerializer,
     EditprofileSerializer,
     NewsLetterSerializers,
-   
+    CartSerializers,
 )
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -28,14 +27,12 @@ from rest_framework import status
 from django.core.mail import EmailMessage
 import random
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
 
 
 def index(request):
     return render(request, "index.html")
-
-
-def cart(request):
-    return render(request, "cart.html")
 
 
 def checkout(request):
@@ -96,36 +93,63 @@ def gadget_product(request):
 def arrival_product(request):
     return render(request, "new-products.html")
 
-@login_required
-def add_to_cart(request, product_type, product_id):
-    user=request.session["username"]
-    # Define a mapping from product types to their respective models
-    product_model = {
-        'men': MenProduct,
-        'women': WomenProduct,
-        'kids': KidsProduct,
-        'fashion': FashionProduct,
-        'gadget': GadgetProduct
-    }.get(product_type)
 
-    product = get_object_or_404(GadgetProduct, id=product_id)
-    # product = get_object_or_404(WomenProduct, id=product_id)
-    
-    register_user = Register.objects.filter(username=user).first()
-    
-    
-    cart_item, created = CartItem.objects.get_or_create(
-        user=register_user,
-        **{f'{product_type}product': product},
-        defaults={'quantity': 1}
-    )
-    
-    if not created:
-        cart_item.quantity += 1
-        cart_item.save()
-    
-    return redirect('cart')
+class AddtoCart(LoginRequiredMixin, View):
 
+    def post(request, product_type, product_id):
+        user = request.session["username"]
+        # Define a mapping from product types to their respective models
+        product_model = {
+            "men": MenProduct,
+            "women": WomenProduct,
+            "kids": KidsProduct,
+            "fashion": FashionProduct,
+            "gadget": GadgetProduct,
+        }.get(product_type)
+
+        product = get_object_or_404(GadgetProduct, id=product_id)
+        # product = get_object_or_404(WomenProduct, id=product_id)
+
+        register_user = Register.objects.filter(username=user).first()
+
+        cart_item, created = CartItem.objects.get_or_create(
+            user=register_user,
+            **{f"{product_type}product": product},
+            defaults={"quantity": 1},
+        )
+
+        if not created:
+            cart_item.quantity += 1
+            cart_item.save()
+
+        return redirect("cart")
+
+
+class CartView(LoginRequiredMixin, View):
+    serializer_class = CartSerializers
+    template_name = "cart.html"
+
+    def get(self, request, *args, **kwargs):
+        user = request.session.get("username")
+        register_user = Register.objects.filter(username=user).first()
+
+        cart_items = CartItem.objects.filter(user=register_user)
+        cart_subtotal = 0
+        for item in cart_items:
+            item.total_price = item.gadgetproduct.price * item.quantity
+            cart_subtotal += item.total_price
+
+        shipping_cost = 30
+        cart_total = cart_subtotal + shipping_cost
+        return render(request, self.template_name,
+        context = {
+            "cart_items": cart_items,
+            "cart_subtotal": cart_subtotal,
+            "shipping_cost": shipping_cost,
+            "cart_total": cart_total,
+        })
+
+        # return render(request, self.template_name, context)
 
 
 class RegisterView(generics.CreateAPIView):
@@ -216,7 +240,6 @@ class OtpView(generics.CreateAPIView):
             messages.error(request, serializer.errors["non_field_errors"][0])
             return redirect("otp")
         return redirect("reset_password")
-    
 
 
 class ResetpasswordView(generics.CreateAPIView):
@@ -238,7 +261,7 @@ class ResetpasswordView(generics.CreateAPIView):
             messages.error(request, serializer.errors["non_field_errors"][0])
             return redirect("reset_password")
         return redirect("login")
-    
+
 
 class ProfileView(generics.CreateAPIView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -250,7 +273,7 @@ class ProfileView(generics.CreateAPIView):
         username = request.session.get("username")
         person_details = Register.objects.filter(username=username)
         return render(request, self.template_name, context={"details": person_details})
-    
+
 
 # class EditprofileView(generics.CreateAPIView):
 #     renderer_classes = [TemplateHTMLRenderer]
@@ -275,7 +298,7 @@ class ProfileView(generics.CreateAPIView):
 #             return redirect("profile")
 #         messages.error(request, serializer.errors["non_field_errors"][0])
 #         return redirect("edit")
-    
+
 
 class NewsLetterView(generics.CreateAPIView):
     serializer_class = NewsLetterSerializers
@@ -286,7 +309,7 @@ class NewsLetterView(generics.CreateAPIView):
         if "username" in request.session:
             return redirect("index")
         serializer = NewsLetterSerializers()
-        return render(request, self.template_name, {'serializer': serializer})
+        return render(request, self.template_name, {"serializer": serializer})
 
     def post(self, request, *args, **kwargs):
         serializer = NewsLetterSerializers(data=request.data)
