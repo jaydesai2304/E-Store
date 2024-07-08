@@ -106,7 +106,7 @@
                                             </div>
                                         </div>
                                         <div class="action">
-                                            <a class="btn" href="#"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
+                                            <a class="btn" href="{% url 'add_to_cart' 'gadget' product.id %}"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
                                             <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Buy Now</a>
                                         </div>
                                     </div>
@@ -227,39 +227,6 @@
             </div>
         </div>
         <!-- Brand End -->
-
-        <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('.btn.add-to-cart').addEventListener('click', function(e) {
-            e.preventDefault();
-            const productType = 'menproduct'; // Or fetch from your product context
-            const productId = '{{ product.id }}'; // Replace with the actual product id
-            const quantity = document.querySelector('.quantity input').value;
-
-            fetch("{% url 'add_to_cart' %}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": "{{ csrf_token }}"
-                },
-                body: JSON.stringify({
-                    product_type: productType,
-                    product_id: productId,
-                    quantity: quantity
-                })
-            }).then(response => response.json())
-              .then(data => {
-                  if (data.id) {
-                      alert("Product added to cart successfully!");
-                  } else {
-                      alert("Failed to add product to cart.");
-                  }
-              }).catch(error => {
-                  console.error('Error:', error);
-              });
-        });
-    });
-</script>
       
     </body>
     {% endblock content %}
