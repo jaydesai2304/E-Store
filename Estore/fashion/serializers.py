@@ -181,3 +181,27 @@ class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = ['id', 'menproduct', 'womenproduct', 'kidsproduct', 'fashionproduct', 'gadgetproduct', 'quantity', 'user']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        product_type = validated_data.pop('product_type')
+        product_id = validated_data.pop('product_id')
+        quantity = validated_data.get('quantity', 1)
+        
+        product_model = {
+            'menproduct': MenProduct,
+            'womenproduct': WomenProduct,
+            'kidsproduct': KidsProduct,
+            'fashionproduct': FashionProduct,
+            'gadgetproduct': GadgetProduct
+        }[product_type]
+
+        product = product_model.objects.get(id=product_id)
+        cart_item, created = CartItem.objects.get_or_create(
+            user=request.user,
+            **{product_type: product}
+        )
+        if not created:
+            cart_item.quantity += quantity
+        cart_item.save()
+        return cart_item
