@@ -143,3 +143,14 @@ class NewsLetterSerializers(serializers.ModelSerializer):
         def create(self, validated_data):
             user = News_Letter.objects.create(**validated_data)
             return user
+        
+
+class CartSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = CartItem
+        fields = "__all__"
+
+        def create(self, validated_data):
+            user = CartItem.objects.create(**validated_data)
+            return user
