@@ -3,7 +3,6 @@ from .models import Register, News_Letter
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueValidator
 from django.core.exceptions import ValidationError
-from .models import CartItem
 from .models import CartItem, MenProduct, WomenProduct, KidsProduct, FashionProduct, GadgetProduct
 
 
@@ -144,64 +143,3 @@ class NewsLetterSerializers(serializers.ModelSerializer):
         def create(self, validated_data):
             user = News_Letter.objects.create(**validated_data)
             return user
-           
-
-class MenProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MenProduct
-        fields = '__all__'
-
-class WomenProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WomenProduct
-        fields = '__all__'
-
-class KidsProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KidsProduct
-        fields = '__all__'
-
-class FashionProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FashionProduct
-        fields = '__all__'
-
-class GadgetProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GadgetProduct
-        fields = '__all__'
-
-class CartItemSerializer(serializers.ModelSerializer):
-    menproduct = MenProductSerializer(read_only=True)
-    womenproduct = WomenProductSerializer(read_only=True)
-    kidsproduct = KidsProductSerializer(read_only=True)
-    fashionproduct = FashionProductSerializer(read_only=True)
-    gadgetproduct = GadgetProductSerializer(read_only=True)
-
-    class Meta:
-        model = CartItem
-        fields = ['id', 'menproduct', 'womenproduct', 'kidsproduct', 'fashionproduct', 'gadgetproduct', 'quantity', 'user']
-
-    def create(self, validated_data):
-        request = self.context.get('request')
-        product_type = validated_data.pop('product_type')
-        product_id = validated_data.pop('product_id')
-        quantity = validated_data.get('quantity', 1)
-        
-        product_model = {
-            'menproduct': MenProduct,
-            'womenproduct': WomenProduct,
-            'kidsproduct': KidsProduct,
-            'fashionproduct': FashionProduct,
-            'gadgetproduct': GadgetProduct
-        }[product_type]
-
-        product = product_model.objects.get(id=product_id)
-        cart_item, created = CartItem.objects.get_or_create(
-            user=request.user,
-            **{product_type: product}
-        )
-        if not created:
-            cart_item.quantity += quantity
-        cart_item.save()
-        return cart_item
