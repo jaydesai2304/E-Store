@@ -11,12 +11,13 @@ from .views import (
     ResetpasswordView,
     LogoutView,
     NewsLetterView,
-    add_to_cart,
+    AddtoCart,
+    CartView,
 )
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("cart/", views.cart, name="cart"),
+   
     path("checkout/", views.checkout, name="checkout"),
     path("contact/", views.contact, name="contact"),
     path("product_list/", views.product_list, name="product_list"),
@@ -29,9 +30,9 @@ urlpatterns = [
     path("arrival_product/", views.arrival_product, name="arrival_product"),
     path("product/<str:category>/<int:id>/", views.product_detail, name="product_detail" ),
 
-    path('add-to-cart/<str:product_type>/<int:product_id>/', add_to_cart, name='add_to_cart'),
+    path('add-to-cart/<str:product_type>/<int:product_id>/', AddtoCart.as_view(), name='add_to_cart'),
 
-    
+    path("cart/", CartView.as_view(), name="cart"),
     path("reset_password/", ResetpasswordView.as_view(), name="reset_password"),
     path("forgot/", ForgotView.as_view(), name="forgot"),
     path("otp/", OtpView.as_view(), name="otp"),
