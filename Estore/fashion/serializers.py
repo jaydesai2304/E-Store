@@ -133,6 +133,7 @@ class EditprofileSerializer(serializers.ModelSerializer):
             person_details.phone_number = phone_number
             person_details.save()
         return data
+    
 
 class NewsLetterSerializers(serializers.ModelSerializer):
 
