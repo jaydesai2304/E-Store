@@ -191,11 +191,13 @@ class LoginView(generics.GenericAPIView):
         return render(request, self.template_name, {"serializer": serializer})
 
 
+
 class LogoutView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         if "username" in request.session:
             del request.session["username"]
         return redirect("index")
+
 
 
 class ForgotView(generics.CreateAPIView):
@@ -221,6 +223,7 @@ class ForgotView(generics.CreateAPIView):
         email = EmailMessage(email_subject, email_body, to=[email])
         email.send()
         return redirect("otp")
+
 
 
 class OtpView(generics.CreateAPIView):
