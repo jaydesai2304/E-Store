@@ -13,13 +13,13 @@ from .views import (
     NewsLetterView,
     AddtoCart,
     CartView,
+    ContactView,
 )
 
 urlpatterns = [
     path("", views.index, name="index"),
    
     path("checkout/", views.checkout, name="checkout"),
-    path("contact/", views.contact, name="contact"),
     path("product_list/", views.product_list, name="product_list"),
     path("wishlist/", views.wishlist, name="wishlist"),
     path("men_product/", views.men_product, name="men_product"),
@@ -41,6 +41,7 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("newsletter/", NewsLetterView.as_view(), name="newsletter"),
     path("my_account/", ProfileView.as_view(), name="my_account"),
+    path("contact/", ContactView.as_view(), name="contact"),
 ]
 
 if settings.DEBUG:
