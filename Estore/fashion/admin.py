@@ -8,6 +8,7 @@ from .models import (
     GadgetProduct,
     News_Letter,
     CartItem,
+    Contact,
 
 )
 
@@ -21,8 +22,8 @@ class UserAdmin(admin.ModelAdmin):
         "password",
     )
 
-
 admin.site.register(Register, UserAdmin)
+
 
 admin.site.register(MenProduct)
 
@@ -37,3 +38,9 @@ admin.site.register(GadgetProduct)
 admin.site.register(News_Letter)
 
 admin.site.register(CartItem)
+
+
+class Messages(admin.ModelAdmin):
+    list_display = ("fname", "email", "message",)
+
+admin.site.register(Contact, Messages)
