@@ -18,7 +18,7 @@ from .serializers import (
     ResetpasswordSerializer,
     EditprofileSerializer,
     NewsLetterSerializers,
-    CartSerializers,
+    # CartSerializers,
 )
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -65,6 +65,7 @@ def product_detail(request, category, id):
     return render(request, "product-detail.html", {"product": product})
 
 
+
 def men_product(request):
     menproducts = MenProduct.objects.all()
     return render(request, "men-product.html", {"menproducts": menproducts})
@@ -94,23 +95,25 @@ def arrival_product(request):
     return render(request, "new-products.html")
 
 
-class AddtoCart(LoginRequiredMixin, View):
-
-    def post(request, product_type, product_id):
+class AddtoCart(LoginRequiredMixin, generics.CreateAPIView):
+    
+    def get(self, request, product_type, product_id):
         user = request.session["username"]
-        # Define a mapping from product types to their respective models
+        print("producttype", product_type)
+
         product_model = {
             "men": MenProduct,
             "women": WomenProduct,
             "kids": KidsProduct,
             "fashion": FashionProduct,
             "gadget": GadgetProduct,
-        }.get(product_type)
+        }
 
         product = get_object_or_404(GadgetProduct, id=product_id)
-        # product = get_object_or_404(WomenProduct, id=product_id)
 
         register_user = Register.objects.filter(username=user).first()
+        if not register_user:
+            return redirect('login')
 
         cart_item, created = CartItem.objects.get_or_create(
             user=register_user,
@@ -126,7 +129,6 @@ class AddtoCart(LoginRequiredMixin, View):
 
 
 class CartView(LoginRequiredMixin, View):
-    serializer_class = CartSerializers
     template_name = "cart.html"
 
     def get(self, request, *args, **kwargs):
@@ -141,6 +143,7 @@ class CartView(LoginRequiredMixin, View):
 
         shipping_cost = 30
         cart_total = cart_subtotal + shipping_cost
+
         return render(request, self.template_name,
         context = {
             "cart_items": cart_items,
@@ -149,7 +152,6 @@ class CartView(LoginRequiredMixin, View):
             "cart_total": cart_total,
         })
 
-        # return render(request, self.template_name, context)
 
 
 class RegisterView(generics.CreateAPIView):
