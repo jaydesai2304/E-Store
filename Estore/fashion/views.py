@@ -19,6 +19,7 @@ from .serializers import (
     EditprofileSerializer,
     NewsLetterSerializers,
     # CartSerializers,
+    ContactSerializers,
 )
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -38,9 +39,6 @@ def index(request):
 def checkout(request):
     return render(request, "checkout.html")
 
-
-def contact(reqest):
-    return render(reqest, "contact.html")
 
 
 def product_list(request):
@@ -318,6 +316,25 @@ class NewsLetterView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = NewsLetterSerializers(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return redirect("index")
+        return render(request, self.template_name)
+    
+
+class ContactView(generics.CreateAPIView):
+    serializer_class = ContactSerializers
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "contact.html"
+
+    def get(self, request):
+        if "username" in request.session:
+            return redirect("login")
+        serializer = ContactSerializers()
+        return render(request, self.template_name, {"serializer": serializer})
+
+    def post(self, request, *args, **kwargs):
+        serializer = ContactSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return redirect("index")
