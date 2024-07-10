@@ -3,7 +3,7 @@ from .models import Register, News_Letter
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueValidator
 from django.core.exceptions import ValidationError
-from .models import CartItem, MenProduct, WomenProduct, KidsProduct, FashionProduct, GadgetProduct
+from .models import CartItem, MenProduct, WomenProduct, KidsProduct, FashionProduct, GadgetProduct, Contact
 
 
 class RegisterSerializers(serializers.ModelSerializer):
@@ -143,6 +143,17 @@ class NewsLetterSerializers(serializers.ModelSerializer):
     
         def create(self, validated_data):
             user = News_Letter.objects.create(**validated_data)
+            return user
+        
+
+class ContactSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Contact
+        fields = "__all__"
+    
+        def create(self, validated_data):
+            user = Contact.objects.create(**validated_data)
             return user
         
 
