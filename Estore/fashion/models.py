@@ -63,3 +63,9 @@ class CartItem(models.Model):
 
     quantity = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(Register, on_delete=models.CASCADE)
+
+
+class Contact(models.Model):
+    fname = models.CharField(max_length=100)
+    email = models.EmailField(max_length=254)
+    message =models.CharField(max_length=100)
