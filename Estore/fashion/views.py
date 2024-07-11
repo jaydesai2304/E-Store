@@ -18,7 +18,7 @@ from .serializers import (
     ResetpasswordSerializer,
     EditprofileSerializer,
     NewsLetterSerializers,
-    # CartSerializers,
+    CartSerializers,
     ContactSerializers,
 )
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -95,7 +95,7 @@ def arrival_product(request):
 
 class AddtoCart(LoginRequiredMixin, generics.CreateAPIView):
     
-    def get(self, request, product_type, product_id):
+    def post(self, request, product_type, product_id):
         user = request.session["username"]
         print("producttype", product_type)
 
@@ -134,6 +134,7 @@ class CartView(LoginRequiredMixin, View):
         register_user = Register.objects.filter(username=user).first()
 
         cart_items = CartItem.objects.filter(user=register_user)
+        
         cart_subtotal = 0
         for item in cart_items:
             item.total_price = item.gadgetproduct.price * item.quantity
