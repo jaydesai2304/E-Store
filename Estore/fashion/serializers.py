@@ -78,6 +78,7 @@ class ForgotSerializer(serializers.ModelSerializer):
         return data
 
 
+
 class OtpSerializer(serializers.Serializer):
     enter_otp = serializers.CharField()
 
