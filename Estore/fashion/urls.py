@@ -18,7 +18,6 @@ from .views import (
 
 urlpatterns = [
     path("", views.index, name="index"),
-   
     path("checkout/", views.checkout, name="checkout"),
     path("product_list/", views.product_list, name="product_list"),
     path("wishlist/", views.wishlist, name="wishlist"),
