@@ -3,7 +3,7 @@ from .models import Register, News_Letter
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueValidator
 from django.core.exceptions import ValidationError
-from .models import CartItem, MenProduct, WomenProduct, KidsProduct, FashionProduct, GadgetProduct, Contact
+from .models import CartItem, Contact
 
 
 class RegisterSerializers(serializers.ModelSerializer):
