@@ -18,7 +18,7 @@ from .serializers import (
     ResetpasswordSerializer,
     EditprofileSerializer,
     NewsLetterSerializers,
-    CartSerializers,
+    # CartSerializers,
     ContactSerializers,
 )
 from rest_framework.renderers import TemplateHTMLRenderer
