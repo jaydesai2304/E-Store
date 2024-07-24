@@ -150,7 +150,6 @@ class CartView(LoginRequiredMixin, View):
         })
 
 
-
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializers
     renderer_classes = [TemplateHTMLRenderer]
