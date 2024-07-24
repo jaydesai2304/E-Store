@@ -23,7 +23,6 @@ class UserAdmin(admin.ModelAdmin):
 
 admin.site.register(Register, UserAdmin)
 
-
 admin.site.register(MenProduct)
 
 admin.site.register(WomenProduct)
