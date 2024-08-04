@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+from rest_framework.viewsets import ViewSet
 from rest_framework import generics
 from .models import (
     Register,
@@ -20,6 +23,7 @@ from .serializers import (
     NewsLetterSerializers,
     # CartSerializers,
     ContactSerializers,
+ 
 )
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.contrib import messages
@@ -40,8 +44,10 @@ def checkout(request):
     return render(request, "checkout.html")
 
 
+
 def product_list(request):
     return render(request, "product-list.html")
+
 
 def wishlist(request):
     return render(request, "wishlist.html")
@@ -91,9 +97,10 @@ def arrival_product(request):
     return render(request, "new-products.html")
 
 
-class AddtoCart(LoginRequiredMixin, generics.CreateAPIView):
+class AddtoCart(generics.ListCreateAPIView):
     
-    def post(self, request, product_type, product_id):
+    def get(self, request, product_type, product_id):
+        print("IN ADD TO CART")
         user = request.session["username"]
         print("producttype", product_type)
 
@@ -103,20 +110,21 @@ class AddtoCart(LoginRequiredMixin, generics.CreateAPIView):
             "kids": KidsProduct,
             "fashion": FashionProduct,
             "gadget": GadgetProduct,
-        }
-
-        product = get_object_or_404(GadgetProduct, id=product_id)
+        }.get(product_type)
+        
+        product = get_object_or_404(product_model, id=product_id)
 
         register_user = Register.objects.filter(username=user).first()
         if not register_user:
             return redirect('login')
+        print("fetch register")
 
         cart_item, created = CartItem.objects.get_or_create(
             user=register_user,
             **{f"{product_type}product": product},
             defaults={"quantity": 1},
         )
-
+        print("saved success")
         if not created:
             cart_item.quantity += 1
             cart_item.save()
@@ -124,7 +132,7 @@ class AddtoCart(LoginRequiredMixin, generics.CreateAPIView):
         return redirect("cart")
 
 
-class CartView(LoginRequiredMixin, View):
+class CartView(View):
     template_name = "cart.html"
 
     def get(self, request, *args, **kwargs):
@@ -132,11 +140,27 @@ class CartView(LoginRequiredMixin, View):
         register_user = Register.objects.filter(username=user).first()
 
         cart_items = CartItem.objects.filter(user=register_user)
+        print("cart", cart_items)
         
         cart_subtotal = 0
         for item in cart_items:
-            item.total_price = item.gadgetproduct.price * item.quantity
-            cart_subtotal += item.total_price
+            product = None
+            if item.menproduct:
+                product = item.menproduct
+            elif item.womenproduct:
+                product = item.womenproduct
+            elif item.kidsproduct:
+                product = item.kidsproduct
+            elif item.fashionproduct:
+                product = item.fashionproduct
+            elif item.gadgetproduct:
+                product = item.gadgetproduct
+
+            if product:
+                item.total_price = product.price * item.quantity
+                cart_subtotal += item.total_price
+            else:
+                item.total_price = 0 
 
         shipping_cost = 30
         cart_total = cart_subtotal + shipping_cost
@@ -148,6 +172,17 @@ class CartView(LoginRequiredMixin, View):
             "shipping_cost": shipping_cost,
             "cart_total": cart_total,
         })
+    
+class RemoveCartItemView(View):
+    def get(self, request, item_id):
+        user = request.session.get("username")
+        register_user = Register.objects.filter(username=user).first()
+
+        cart_item = get_object_or_404(CartItem, id=item_id, user=register_user)
+
+        cart_item.delete()
+
+        return redirect('cart')
 
 
 class RegisterView(generics.CreateAPIView):
@@ -337,3 +372,21 @@ class ContactView(generics.CreateAPIView):
             serializer.save()
             return redirect("index")
         return render(request, self.template_name)
+    
+# class BillingView(generics.CreateAPIView):
+#     serializer_class = BillingSerializers
+#     renderer_classes = [TemplateHTMLRenderer]
+#     template_name = "checkout.html"
+
+#     def get(self, request):
+#         if "username" in request.session:
+#             return redirect("index")
+#         serializer = BillingSerializers()
+#         return render(request, self.template_name)
+
+#     def post(self, request, *args, **kwargs):
+#         serializer = BillingSerializers(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return redirect("")
+#         return render(request, self.template_name)
