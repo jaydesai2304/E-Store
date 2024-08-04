@@ -56,16 +56,44 @@
                                         <tr>
                                             <td>
                                                 <div class="img">
+                                                    {% if item.menproduct %}
+                                                    <a href="#"><img src="{{ item.menproduct.image.url }}" alt="Image"></a>
+                                                    <p>{{ item.menproduct.name }}</p>
+                                                    {% elif item.womenproduct %}
+                                                    <a href="#"><img src="{{ item.womenproduct.image.url }}" alt="Image"></a>
+                                                    <p>{{ item.womenproduct.name }}</p>
+                                                    {% elif item.kidsproduct %}
+                                                    <a href="#"><img src="{{ item.kidsproduct.image.url }}" alt="Image"></a>
+                                                    <p>{{ item.kidsproduct.name }}</p>
+                                                    {% elif item.fashionproduct %}
+                                                    <a href="#"><img src="{{ item.fashionproduct.image.url }}" alt="Image"></a>
+                                                    <p>{{ item.fashionproduct.name }}</p>
+                                                    {% elif item.gadgetproduct %}
                                                     <a href="#"><img src="{{ item.gadgetproduct.image.url }}" alt="Image"></a>
                                                     <p>{{ item.gadgetproduct.name }}</p>
+                                                    {% endif %}
                                                 </div>
                                             </td>
-                                            <td>{{ item.gadgetproduct.price }}</td>
                                             <td>
-                                                {{ item.quantity }}
+                                                {% if item.menproduct %}
+                                                {{ item.menproduct.price }}
+                                                {% elif item.womenproduct %}
+                                                {{ item.womenproduct.price }}
+                                                {% elif item.kidsproduct %}
+                                                {{ item.kidsproduct.price }}
+                                                {% elif item.fashionproduct %}
+                                                {{ item.fashionproduct.price }}
+                                                {% elif item.gadgetproduct %}
+                                                {{ item.gadgetproduct.price }}
+                                                {% endif %}
                                             </td>
-                                            <td>{{item.total_price}}</td>
-                                            <td><button><i class="fa fa-trash"></i></button></td>
+                                            <td>{{ item.quantity }}</td>
+                                            <td>{{ item.total_price }}</td>
+                                            <td>
+                                                <a href="{% url 'remove_cart_item' item.id %}" class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i> Remove
+                                                </a>
+                                            </td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -83,6 +111,7 @@
                                     <div class="cart-summary">
                                         <div class="cart-content">
                                             <h1>Cart Summary</h1>
+                                            <p>Cart Cost<span>{{ cart_subtotal }}</span></p>
                                             <p>Shipping Cost<span>30</span></p>
                                             <h2>Grand Total<span>{{ cart_total }}</span></h2>
                                         </div>
