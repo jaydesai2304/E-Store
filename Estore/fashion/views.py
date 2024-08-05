@@ -31,8 +31,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.core.mail import EmailMessage
 import random
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
 
@@ -42,7 +40,6 @@ def index(request):
 
 def checkout(request):
     return render(request, "checkout.html")
-
 
 
 def product_list(request):
@@ -100,10 +97,8 @@ def arrival_product(request):
 class AddtoCart(generics.ListCreateAPIView):
     
     def get(self, request, product_type, product_id):
-        print("IN ADD TO CART")
         user = request.session["username"]
-        print("producttype", product_type)
-
+        print(product_type,"product type show")
         product_model = {
             "men": MenProduct,
             "women": WomenProduct,
@@ -117,14 +112,13 @@ class AddtoCart(generics.ListCreateAPIView):
         register_user = Register.objects.filter(username=user).first()
         if not register_user:
             return redirect('login')
-        print("fetch register")
 
         cart_item, created = CartItem.objects.get_or_create(
             user=register_user,
             **{f"{product_type}product": product},
             defaults={"quantity": 1},
         )
-        print("saved success")
+
         if not created:
             cart_item.quantity += 1
             cart_item.save()
@@ -140,7 +134,6 @@ class CartView(View):
         register_user = Register.objects.filter(username=user).first()
 
         cart_items = CartItem.objects.filter(user=register_user)
-        print("cart", cart_items)
         
         cart_subtotal = 0
         for item in cart_items:
