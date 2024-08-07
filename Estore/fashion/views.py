@@ -354,7 +354,7 @@ class ContactView(generics.CreateAPIView):
     template_name = "contact.html"
 
     def get(self, request):
-        if "username" in request.session:
+        if "username" not in request.session:
             return redirect("login")
         serializer = ContactSerializers()
         return render(request, self.template_name, {"serializer": serializer})
