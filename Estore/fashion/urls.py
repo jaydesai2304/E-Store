@@ -21,7 +21,6 @@ from .views import (
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path("checkout/", views.checkout, name="checkout"),
-    path("product_list/", views.product_list, name="product_list"),
     path("wishlist/", views.wishlist, name="wishlist"),
     path("men_product/", views.men_product, name="men_product"),
     path("women_product/", views.women_product, name="women_product"),
