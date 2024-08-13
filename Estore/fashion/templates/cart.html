@@ -87,7 +87,13 @@
                                                 {{ item.gadgetproduct.price }}
                                                 {% endif %}
                                             </td>
-                                            <td>{{ item.quantity }}</td>
+                                            <td>
+                                                <div class="qty">
+                                                    <button class="btn-minus"><i class="fa fa-minus"></i></button>
+                                                    <input type="text" value="{{ item.quantity }}">
+                                                    <button class="btn-plus"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                            </td>
                                             <td>{{ item.total_price }}</td>
                                             <td>
                                                 <a href="{% url 'remove_cart_item' item.id %}" class="btn btn-danger">
