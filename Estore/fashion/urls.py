@@ -14,11 +14,12 @@ from .views import (
     AddtoCart,
     CartView,
     ContactView,
-    RemoveCartItemView
+    RemoveCartItemView,
+    IndexView
 )
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", IndexView.as_view(), name="index"),
     path("checkout/", views.checkout, name="checkout"),
     path("product_list/", views.product_list, name="product_list"),
     path("wishlist/", views.wishlist, name="wishlist"),
