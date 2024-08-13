@@ -38,7 +38,6 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
                             <a href="{% url 'index' %}" class="nav-item nav-link {% if request.path == '/' %}active{% endif %}">Home</a>
-                            <a href="{% url 'product_list' %}" class="nav-item nav-link {% if request.path == '/product_list/' %}active{% endif %}">Products</a>
                             <a href="{% url 'cart' %}" class="nav-item nav-link {% if request.path == '/cart/' %}active{% endif %}">Cart</a>
                             <a href="{% url 'contact' %}" class="nav-item nav-link {% if request.path == '/contact/' %}active{% endif %}">Contact Us</a>
                             <a href="{% url 'my_account' %}" class="nav-item nav-link {% if request.path == '/my_account/' %}active{% endif %}">My Account</a>
