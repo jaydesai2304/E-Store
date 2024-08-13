@@ -54,10 +54,6 @@ def checkout(request):
     return render(request, "checkout.html")
 
 
-def product_list(request):
-    return render(request, "product-list.html")
-
-
 def wishlist(request):
     return render(request, "wishlist.html")
 
