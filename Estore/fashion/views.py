@@ -34,8 +34,20 @@ import random
 from django.views import View
 
 
-def index(request):
-    return render(request, "index.html")
+class IndexView(View):
+    template_name = "index.html"
+
+    def get(self, request, *args, **kwargs):
+        user = request.session.get("username")
+        register_user = Register.objects.filter(username=user).first()
+
+        cart_items_count = CartItem.objects.filter(user=register_user).count()
+
+        return render(request, self.template_name,
+        context = {
+            "cart_items_count": cart_items_count,
+        })
+
 
 
 def checkout(request):
