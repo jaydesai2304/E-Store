@@ -1,7 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
-from rest_framework.viewsets import ViewSet
 from rest_framework import generics
 from .models import (
     Register,
@@ -10,7 +7,6 @@ from .models import (
     KidsProduct,
     FashionProduct,
     GadgetProduct,
-    News_Letter,
     CartItem,
 )
 from .serializers import (
@@ -21,7 +17,6 @@ from .serializers import (
     ResetpasswordSerializer,
     EditprofileSerializer,
     NewsLetterSerializers,
-    # CartSerializers,
     ContactSerializers,
  
 )
@@ -49,13 +44,9 @@ class IndexView(View):
         })
 
 
-
 def checkout(request):
     return render(request, "checkout.html")
 
-
-def wishlist(request):
-    return render(request, "wishlist.html")
 
 
 def product_detail(request, category, id):
@@ -96,10 +87,6 @@ def fashion_product(request):
 def gadget_product(request):
     gadgetproduct = GadgetProduct.objects.all()
     return render(request, "gadget-product.html", {"gadgetproduct": gadgetproduct})
-
-
-def arrival_product(request):
-    return render(request, "new-products.html")
 
 
 class AddtoCart(generics.ListCreateAPIView):
@@ -307,35 +294,12 @@ class ProfileView(generics.CreateAPIView):
     def get(self, request):
         if "username" not in request.session:
             return redirect("login")
+    
         username = request.session.get("username")
+        print("username",username)
         person_details = Register.objects.filter(username=username)
         return render(request, self.template_name, context={"details": person_details})
-
-
-# class EditprofileView(generics.CreateAPIView):
-#     renderer_classes = [TemplateHTMLRenderer]
-#     template_name = "editprofile.html"
-#     serializer_class = EditprofileSerializer
-
-#     def get(self, request):
-#         if "username" not in request.session:
-#             return redirect("login")
-#         username = request.session.get("username")
-#         person_details = Register.objects.filter(username=username)
-#         return render(
-#             request, self.template_name, context={"person_details": person_details}
-#         )
-
-#     def post(self, request):
-#         username = request.session.get("username")
-#         serializer = EditprofileSerializer(
-#             data=request.data, context={"user_id": username}
-#         )
-#         if serializer.is_valid():
-#             return redirect("profile")
-#         messages.error(request, serializer.errors["non_field_errors"][0])
-#         return redirect("edit")
-
+    
 
 class NewsLetterView(generics.CreateAPIView):
     serializer_class = NewsLetterSerializers
