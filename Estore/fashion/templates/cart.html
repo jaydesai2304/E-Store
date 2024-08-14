@@ -57,19 +57,23 @@
                                             <td>
                                                 <div class="img">
                                                     {% if item.menproduct %}
-                                                    <a href="#"><img src="{{ item.menproduct.image.url }}" alt="Image"></a>
+                                                    <a href="{% url 'product_detail' item.menproduct.product_type item.menproduct.id %}"><img src="{{ item.menproduct.image.url }}" alt="Image"></a>
                                                     <p>{{ item.menproduct.name }}</p>
+
                                                     {% elif item.womenproduct %}
-                                                    <a href="#"><img src="{{ item.womenproduct.image.url }}" alt="Image"></a>
+                                                    <a href="{% url 'product_detail' item.womenproduct.product_type item.womenproduct.id %}"><img src="{{ item.womenproduct.image.url }}" alt="Image"></a>
                                                     <p>{{ item.womenproduct.name }}</p>
+
                                                     {% elif item.kidsproduct %}
-                                                    <a href="#"><img src="{{ item.kidsproduct.image.url }}" alt="Image"></a>
+                                                    <a href="{% url 'product_detail' item.kidsproduct.product_type item.kidsproduct.id %}"><img src="{{ item.kidsproduct.image.url }}" alt="Image"></a>
                                                     <p>{{ item.kidsproduct.name }}</p>
+
                                                     {% elif item.fashionproduct %}
-                                                    <a href="#"><img src="{{ item.fashionproduct.image.url }}" alt="Image"></a>
+                                                    <a href="{% url 'product_detail' item.fashionproduct.product_type item.fashionproduct.id %}"><img src="{{ item.fashionproduct.image.url }}" alt="Image"></a>
                                                     <p>{{ item.fashionproduct.name }}</p>
+
                                                     {% elif item.gadgetproduct %}
-                                                    <a href="#"><img src="{{ item.gadgetproduct.image.url }}" alt="Image"></a>
+                                                    <a href="{% url 'product_detail' item.gadgetproduct.product_type item.gadgetproduct.id %}"><img src="{{ item.gadgetproduct.image.url }}" alt="Image"></a>
                                                     <p>{{ item.gadgetproduct.name }}</p>
                                                     {% endif %}
                                                 </div>
