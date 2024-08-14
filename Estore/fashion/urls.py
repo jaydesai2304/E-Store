@@ -21,13 +21,11 @@ from .views import (
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path("checkout/", views.checkout, name="checkout"),
-    path("wishlist/", views.wishlist, name="wishlist"),
     path("men_product/", views.men_product, name="men_product"),
     path("women_product/", views.women_product, name="women_product"),
     path("kids_product/", views.kids_product, name="kids_product"),
     path("fashion_product/", views.fashion_product, name="fashion_product"),
     path("gadget_product/", views.gadget_product, name="gadget_product"),
-    path("arrival_product/", views.arrival_product, name="arrival_product"),
     path("product/<str:category>/<int:id>/", views.product_detail, name="product_detail" ),
 
     path('add-to-cart/<str:product_type>/<int:product_id>/', AddtoCart.as_view(), name='add_to_cart'),
